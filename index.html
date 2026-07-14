@@ -1,0 +1,1782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ngọc Huyền Lê — Marketing & Events Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            black: '#0D0D0D',
+                            darkGray: '#f5f5f5',
+                            pink: '#FF2E93',
+                            neonPink: '#FF007F',
+                            violet: '#7B2CBF',
+                            softViolet: '#9D4EDD'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        cursive: ['Playpen Sans', 'cursive', 'system-ui']
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Playpen+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
+    <style>
+        /* ===== SCROLLBAR ===== */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #fff; }
+        ::-webkit-scrollbar-thumb { background: #FF2E93; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #FF007F; }
+
+        /* ===== NEON GLOW for pink text on dark elements ===== */
+        @keyframes neonGlow {
+            0%, 100% { text-shadow: 0 0 10px rgba(255,46,147,0.35), 0 0 20px rgba(255,46,147,0.2); }
+            50% { text-shadow: 0 0 18px rgba(255,46,147,0.7), 0 0 35px rgba(255,46,147,0.4); }
+        }
+        .neon-text-glow { animation: neonGlow 3s infinite; }
+
+        /* ===== HOVER GLOW for hero title ===== */
+        .hero-title-glow {
+            transition: text-shadow 0.5s ease, filter 0.5s ease;
+        }
+        .hero-title-glow:hover {
+            text-shadow: 0 0 20px rgba(255,46,147,0.35), 0 0 45px rgba(123,44,191,0.25), 0 0 70px rgba(255,46,147,0.15);
+        }
+
+        /* ===== MARQUEE ===== */
+        @keyframes marquee {
+            0% { transform: translateX(0%); }
+            100% { transform: translateX(-50%); }
+        }
+        .marquee-inner {
+            display: flex;
+            width: max-content;
+            animation: marquee 22s linear infinite;
+        }
+        .marquee-inner:hover { animation-play-state: paused; }
+
+        /* ===== FLOATING ===== */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-12px) rotate(4deg); }
+        }
+        @keyframes floatReverse {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-8px) rotate(-3deg); }
+        }
+        .floating-element { animation: float 4s ease-in-out infinite; }
+        .floating-element-reverse { animation: floatReverse 5.5s ease-in-out infinite; }
+
+        /* ===== FILM STRIP (My Lens) ===== */
+        .film-track {
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            touch-action: pan-x;
+            overscroll-behavior-x: contain;
+        }
+        .film-track::-webkit-scrollbar { display: none; }
+        .film-sprockets {
+            height: 16px;
+            background-color: #101010;
+            background-image: radial-gradient(circle, rgba(255,255,255,0.9) 3px, transparent 3.5px);
+            background-size: 26px 16px;
+            background-position: 12px center;
+            background-repeat: repeat-x;
+            flex-shrink: 0;
+        }
+        .film-frame { }
+        .film-frame-inner {
+            filter: sepia(0.4) saturate(0.65) contrast(1.08) brightness(0.9);
+            transition: filter 0.7s ease;
+        }
+        .film-frame:hover .film-frame-inner,
+        .film-frame:focus-within .film-frame-inner { filter: none; }
+        .film-frame-divider {
+            background: repeating-linear-gradient(180deg, transparent 0 4px, rgba(255,255,255,0.15) 4px 5px);
+        }
+
+        /* ===== DRAW IN UNDERLINE ===== */
+        @keyframes drawLine {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+        .draw-underline {
+            position: relative;
+            display: inline-block;
+        }
+        .draw-underline::after {
+            content: '';
+            position: absolute;
+            left: 0; bottom: -3px;
+            height: 3px;
+            background: #FF2E93;
+            width: 0;
+            animation: drawLine 1.2s ease-out 0.5s forwards;
+        }
+
+        /* ===== SPARKLE BURST on hover ===== */
+        @keyframes sparkle {
+            0% { opacity: 0; transform: scale(0) rotate(0deg); }
+            50% { opacity: 1; transform: scale(1.3) rotate(180deg); }
+            100% { opacity: 0; transform: scale(0) rotate(360deg); }
+        }
+        .sparkle-btn:hover .sparkle-icon { animation: sparkle 0.6s ease-out; }
+
+        /* ===== SHIMMER on cards ===== */
+        @keyframes shimmer {
+            0% { background-position: -200% center; }
+            100% { background-position: 200% center; }
+        }
+        .shimmer-border {
+            position: relative;
+        }
+        .shimmer-border::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            padding: 1.5px;
+            background: linear-gradient(90deg, transparent, #FF2E93, transparent);
+            background-size: 200% auto;
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            animation: shimmer 3s linear infinite;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+        .shimmer-border:hover::before { opacity: 1; }
+
+        /* ===== STAGGERED ENTRANCE ===== */
+        @keyframes fadeSlideUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-up { animation: fadeSlideUp 0.7s ease-out both; }
+        .fade-up-d1 { animation-delay: 0.1s; }
+        .fade-up-d2 { animation-delay: 0.25s; }
+        .fade-up-d3 { animation-delay: 0.4s; }
+        .fade-up-d4 { animation-delay: 0.55s; }
+
+        /* ===== PAINT STROKE behind section headers ===== */
+        .paint-stroke {
+            display: inline-block;
+            position: relative;
+        }
+        .paint-stroke::before {
+            content: '';
+            position: absolute;
+            bottom: 2px; left: -4px; right: -4px;
+            height: 40%;
+            background: rgba(255, 46, 147, 0.15);
+            border-radius: 3px;
+            z-index: -1;
+        }
+
+        /* ===== CONTACT PHOTO FRAME ===== */
+        @keyframes rotateFrame {
+            0%, 100% { transform: rotate(-2deg) scale(1); }
+            50% { transform: rotate(2deg) scale(1.02); }
+        }
+        .contact-photo-frame {
+            animation: rotateFrame 5s ease-in-out infinite;
+        }
+
+        /* ===== POLAROID wobble ===== */
+        @keyframes polaroidWobble {
+            0%, 100% { transform: rotate(-3deg); }
+            50% { transform: rotate(1deg); }
+        }
+        .polaroid-frame {
+            animation: polaroidWobble 6s ease-in-out infinite;
+        }
+        .polaroid-frame:hover {
+            animation: none;
+            transform: rotate(0deg) scale(1.04);
+            transition: transform 0.3s ease;
+        }
+
+        /* ===== BLOB mask ===== */
+        .mask-arch { border-radius: 120px 120px 0 0; }
+
+        /* ===== BASE OVERRIDES for white theme ===== */
+        body {
+            color: #111111;
+            background-color: #fffdfd;
+            overflow-x: hidden;
+        }
+        .bg-brand-darkGray { background-color: #f5f5f5 !important; }
+
+        /* ===== ANIMATED AURORA BACKGROUND ===== */
+        .aurora-bg {
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+            overflow: hidden;
+            background: linear-gradient(180deg, #fffdfd 0%, #fbf8fc 50%, #fff8fb 100%);
+            pointer-events: none;
+        }
+        .aurora-blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.55;
+            will-change: transform;
+        }
+        .aurora-blob-1 {
+            width: 50vw; height: 50vw;
+            top: -10%; left: -10%;
+            background: radial-gradient(circle, rgba(255,46,147,0.30), transparent 70%);
+            animation: auroraDrift1 26s ease-in-out infinite;
+        }
+        .aurora-blob-2 {
+            width: 45vw; height: 45vw;
+            top: -5%; right: -12%;
+            background: radial-gradient(circle, rgba(123,44,191,0.26), transparent 70%);
+            animation: auroraDrift2 32s ease-in-out infinite;
+        }
+        .aurora-blob-3 {
+            width: 55vw; height: 55vw;
+            bottom: -18%; left: 10%;
+            background: radial-gradient(circle, rgba(157,78,221,0.22), transparent 70%);
+            animation: auroraDrift3 30s ease-in-out infinite;
+        }
+        .aurora-blob-4 {
+            width: 40vw; height: 40vw;
+            bottom: -10%; right: -8%;
+            background: radial-gradient(circle, rgba(255,0,127,0.20), transparent 70%);
+            animation: auroraDrift4 24s ease-in-out infinite;
+        }
+        .aurora-blob-5 {
+            width: 30vw; height: 30vw;
+            top: 35%; left: 40%;
+            background: radial-gradient(circle, rgba(255,46,147,0.12), transparent 70%);
+            animation: auroraDrift5 22s ease-in-out infinite;
+        }
+        @keyframes auroraDrift1 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(6vw, 5vh) scale(1.1); }
+            66% { transform: translate(-3vw, 8vh) scale(0.95); }
+        }
+        @keyframes auroraDrift2 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(-5vw, 6vh) scale(0.95); }
+            66% { transform: translate(-8vw, -4vh) scale(1.08); }
+        }
+        @keyframes auroraDrift3 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(5vw, -6vh) scale(1.05); }
+            66% { transform: translate(8vw, 3vh) scale(0.98); }
+        }
+        @keyframes auroraDrift4 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(-6vw, -5vh) scale(1.08); }
+            66% { transform: translate(4vw, -8vh) scale(0.96); }
+        }
+        @keyframes auroraDrift5 {
+            0%, 100% { transform: translate(-50%, -50%) translate(0, 0) scale(1); }
+            50% { transform: translate(-50%, -50%) translate(4vw, 5vh) scale(1.15); }
+        }
+        /* Soft moving grain/mesh overlay for subtle texture & depth */
+        .aurora-grid {
+            position: absolute;
+            inset: -20%;
+            background-image:
+                linear-gradient(rgba(123,44,191,0.035) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(123,44,191,0.035) 1px, transparent 1px);
+            background-size: 64px 64px;
+            animation: auroraGrid 60s linear infinite;
+            mask-image: radial-gradient(circle at 50% 40%, black, transparent 75%);
+        }
+        @keyframes auroraGrid {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(64px, 64px); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .aurora-blob, .aurora-grid { animation: none; }
+        }
+
+        /* ===== CURSOR TRAIL dot ===== */
+        .cursor-dot {
+            pointer-events: none;
+            position: fixed;
+            width: 10px; height: 10px;
+            border-radius: 50%;
+            background: #FF2E93;
+            transform: translate(-50%, -50%);
+            transition: all 0.08s ease;
+            z-index: 9999;
+            mix-blend-mode: multiply;
+        }
+
+        /* Section dividers — thin pink rule */
+        .pink-divider {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #FF2E93 40%, #7B2CBF 60%, transparent);
+            border: none;
+        }
+
+        /* Skill bar animation */
+        @keyframes growBar {
+            from { width: 0; }
+        }
+        .skill-bar { animation: growBar 1.2s cubic-bezier(.4,0,.2,1) both; }
+    </style>
+</head>
+<body class="text-black overflow-x-hidden selection:bg-brand-pink selection:text-white"
+      x-data="portfolioApp()"
+      x-init="initApp()">
+
+    <!-- ===== ANIMATED AURORA BACKGROUND ===== -->
+    <div class="aurora-bg" aria-hidden="true">
+        <div class="aurora-blob aurora-blob-1"></div>
+        <div class="aurora-blob aurora-blob-2"></div>
+        <div class="aurora-blob aurora-blob-3"></div>
+        <div class="aurora-blob aurora-blob-4"></div>
+        <div class="aurora-blob aurora-blob-5"></div>
+        <div class="aurora-grid"></div>
+    </div>
+
+    <!-- Cursor trail dot -->
+    <div class="cursor-dot" id="cursorDot"></div>
+
+    <!-- ===== FLOATING QUICK PANEL ===== -->
+    <div class="fixed bottom-6 right-6 z-50">
+        <button @click="togglePanel()"
+                class="bg-brand-pink text-white p-4 rounded-full shadow-lg hover:bg-brand-neonPink transition-all duration-300 flex items-center gap-2 font-semibold border-2 border-black/10 group hover:scale-105 active:scale-95 sparkle-btn">
+            <i data-lucide="image-plus" class="w-6 h-6 group-hover:rotate-12 transition-transform sparkle-icon"></i>
+            <span class="max-w-0 overflow-hidden group-hover:max-w-xs transition-all duration-500 ease-out whitespace-nowrap text-sm">
+                Add Your Photos
+            </span>
+        </button>
+
+        <div x-show="panelOpen"
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0 translate-y-10 scale-95"
+             x-transition:enter-end="opacity-100 translate-y-0 scale-100"
+             x-transition:leave="transition ease-in duration-200"
+             x-transition:leave-start="opacity-100 translate-y-0 scale-100"
+             x-transition:leave-end="opacity-0 translate-y-10 scale-95"
+             @click.away="panelOpen = false"
+             class="absolute bottom-16 right-0 w-80 sm:w-96 bg-white border border-black/10 rounded-2xl p-6 shadow-2xl z-50">
+
+            <div class="flex items-center justify-between mb-4 border-b border-black/10 pb-3">
+                <div class="flex items-center gap-2">
+                    <i data-lucide="sparkles" class="w-5 h-5 text-brand-pink"></i>
+                    <h3 class="font-bold text-lg text-black">Photo Settings</h3>
+                </div>
+                <button @click="panelOpen = false" class="text-gray-400 hover:text-black transition">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-gray-500 mb-2">
+                        1. Profile Portrait (About Me section)
+                    </label>
+                    <div class="border-2 border-dashed border-black/20 hover:border-brand-pink/60 rounded-xl p-4 text-center cursor-pointer transition relative group">
+                        <input type="file" @change="uploadHeroPhoto" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" accept="image/*">
+                        <div class="space-y-1">
+                            <i data-lucide="upload-cloud" class="w-8 h-8 text-gray-400 group-hover:text-brand-pink mx-auto transition"></i>
+                            <p class="text-xs text-gray-500">Click to upload or drag & drop</p>
+                            <p class="text-[10px] text-gray-400">PNG, JPG, WebP supported</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-gray-500 mb-2">
+                        2. Contact Section Photo
+                    </label>
+                    <div class="border-2 border-dashed border-black/20 hover:border-brand-violet/60 rounded-xl p-4 text-center cursor-pointer transition relative group">
+                        <input type="file" @change="uploadContactPhoto" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" accept="image/*">
+                        <div class="space-y-1">
+                            <i data-lucide="upload-cloud" class="w-8 h-8 text-gray-400 group-hover:text-brand-violet mx-auto transition"></i>
+                            <p class="text-xs text-gray-500">Add a photo for the contact section</p>
+                            <p class="text-[10px] text-gray-400">PNG, JPG, WebP supported</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-gray-500 mb-2">
+                        3. Frame Style
+                    </label>
+                    <div class="grid grid-cols-3 gap-2">
+                        <button @click="setMask('arch')" :class="imageMask === 'arch' ? 'border-brand-pink bg-brand-pink/10 text-brand-pink' : 'border-black/10 text-gray-500'" class="border rounded-lg p-2 text-center text-xs font-medium hover:border-brand-pink/50 transition">
+                            Arch
+                        </button>
+                        <button @click="setMask('blob')" :class="imageMask === 'blob' ? 'border-brand-pink bg-brand-pink/10 text-brand-pink' : 'border-black/10 text-gray-500'" class="border rounded-lg p-2 text-center text-xs font-medium hover:border-brand-pink/50 transition">
+                            Blob
+                        </button>
+                        <button @click="setMask('none')" :class="imageMask === 'none' ? 'border-brand-pink bg-brand-pink/10 text-brand-pink' : 'border-black/10 text-gray-500'" class="border rounded-lg p-2 text-center text-xs font-medium hover:border-brand-pink/50 transition">
+                            None
+                        </button>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-gray-500 mb-2">
+                        4. Photo Filter
+                    </label>
+                    <div class="grid grid-cols-3 gap-2">
+                        <button @click="setFilter('normal')" :class="imageFilter === 'normal' ? 'border-brand-pink bg-brand-pink/10 text-brand-pink' : 'border-black/10 text-gray-500'" class="border rounded-lg p-2 text-center text-[10px] hover:border-brand-pink/50 transition">
+                            Natural
+                        </button>
+                        <button @click="setFilter('mono')" :class="imageFilter === 'mono' ? 'border-brand-pink bg-brand-pink/10 text-brand-pink' : 'border-black/10 text-gray-500'" class="border rounded-lg p-2 text-center text-[10px] hover:border-brand-pink/50 transition">
+                            B&W
+                        </button>
+                        <button @click="setFilter('duotone')" :class="imageFilter === 'duotone' ? 'border-brand-pink bg-brand-pink/10 text-brand-pink' : 'border-black/10 text-gray-500'" class="border rounded-lg p-2 text-center text-[10px] hover:border-brand-pink/50 transition">
+                            Pink Duo
+                        </button>
+                    </div>
+                </div>
+
+                <div class="text-[11px] text-gray-500 leading-relaxed bg-black/5 p-3 rounded-lg border border-black/5">
+                    <span class="text-brand-pink font-semibold">Tip:</span> Upload any photo — filters & frames will make it shine beautifully in the design!
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== NAVIGATION ===== -->
+    <nav class="sticky top-0 w-full z-40 bg-white/90 backdrop-blur-md border-b border-black/5 transition-all duration-300">
+        <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+            <a href="#" class="text-xl font-bold uppercase tracking-wider text-black flex items-center gap-2">
+                <span class="bg-brand-pink w-3 h-3 rounded-full animate-ping"></span>
+                HUYEN NGOC <span class="text-black">LE</span>
+            </a>
+
+            <div class="hidden md:flex items-center gap-8 text-sm font-semibold text-gray-600">
+                <a href="#about" class="hover:text-brand-pink transition duration-300">About Me</a>
+                <a href="#skills" class="hover:text-brand-pink transition duration-300">Skills</a>
+                <a href="#experience" class="hover:text-brand-pink transition duration-300">Work Experiences</a>
+                <a href="#extra" class="hover:text-brand-pink transition duration-300">Projects</a>
+                <a href="#contact" class="bg-brand-pink hover:bg-brand-neonPink text-white px-5 py-2.5 rounded-full transition duration-300 shadow-[0_4px_20px_rgba(255,46,147,0.25)]">Get in Touch</a>
+            </div>
+
+            <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden text-black hover:text-brand-pink transition">
+                <i data-lucide="menu" class="w-6 h-6" x-show="!mobileMenuOpen"></i>
+                <i data-lucide="x" class="w-6 h-6" x-show="mobileMenuOpen"></i>
+            </button>
+        </div>
+
+        <div x-show="mobileMenuOpen"
+             x-transition:enter="transition ease-out duration-200"
+             x-transition:enter-start="opacity-0 -translate-y-4"
+             x-transition:enter-end="opacity-100 translate-y-0"
+             class="md:hidden bg-white border-b border-black/10 px-6 py-4 space-y-3 font-semibold text-gray-700">
+            <a href="#about" @click="mobileMenuOpen = false" class="block hover:text-brand-pink py-2">About Me</a>
+            <a href="#skills" @click="mobileMenuOpen = false" class="block hover:text-brand-pink py-2">Skills</a>
+            <a href="#experience" @click="mobileMenuOpen = false" class="block hover:text-brand-pink py-2">Work Experiences</a>
+            <a href="#extra" @click="mobileMenuOpen = false" class="block hover:text-brand-pink py-2">Projects</a>
+            <a href="#contact" @click="mobileMenuOpen = false" class="block bg-brand-pink text-center text-white py-2.5 rounded-xl">Get in Touch</a>
+        </div>
+    </nav>
+
+    <!-- ===== HERO SECTION ===== -->
+    <header class="relative min-h-[90vh] flex flex-col justify-center items-center px-6 overflow-hidden pt-12">
+        <div class="text-center space-y-6 max-w-4xl z-10">
+            <div class="inline-flex items-center gap-2 bg-brand-pink/10 border border-brand-pink/30 text-brand-pink px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-widest fade-up fade-up-d1">
+                <i data-lucide="sparkles" class="w-4 h-4 animate-spin"></i> Available for Job Opportunities
+            </div>
+
+            <div class="space-y-2 fade-up fade-up-d2">
+                <h2 class="text-sm md:text-base uppercase tracking-[0.3em] text-brand-pink font-extrabold">Brand & Account Intern</h2>
+                <h1 class="hero-title-glow text-5xl md:text-8xl font-extrabold tracking-tight select-none leading-none text-black">
+                    LE NGOC <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-pink to-brand-violet neon-text-glow">HUYEN</span>
+                </h1>
+            </div>
+
+            <p class="text-xl md:text-3xl font-cursive text-gray-500 italic tracking-wider fade-up fade-up-d3">
+                "Whatever you do, <span class="text-brand-pink">do it with love</span>"
+            </p>
+
+            <div class="flex flex-wrap justify-center gap-4 pt-6 fade-up fade-up-d3">
+                <span class="bg-white border border-black/10 shadow-sm px-5 py-2.5 rounded-full text-xs font-medium text-gray-600 hover:border-brand-pink transition duration-300 flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-brand-pink"></span> Structured Creativity
+                </span>
+                <span class="bg-white border border-black/10 shadow-sm px-5 py-2.5 rounded-full text-xs font-medium text-gray-600 hover:border-brand-violet transition duration-300 flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-brand-violet"></span> Consistent Accountability
+                </span>
+                <span class="bg-white border border-black/10 shadow-sm px-5 py-2.5 rounded-full text-xs font-medium text-gray-600 hover:border-brand-pink transition duration-300 flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-brand-softViolet"></span> Bold & Respectful
+                </span>
+            </div>
+
+            <div class="pt-8 flex flex-col sm:flex-row items-center justify-center gap-4 fade-up fade-up-d4">
+                <a href="#about" class="w-full sm:w-auto bg-brand-pink hover:bg-brand-neonPink text-white px-8 py-4 rounded-full font-bold transition duration-300 shadow-[0_10px_30px_rgba(255,46,147,0.3)] flex items-center justify-center gap-2 sparkle-btn">
+                    Explore Portfolio <i data-lucide="arrow-down" class="w-5 h-5 sparkle-icon"></i>
+                </a>
+                <a href="#contact" class="w-full sm:w-auto bg-white border-2 border-brand-pink text-brand-pink hover:bg-brand-pink hover:text-white px-8 py-4 rounded-full font-bold transition duration-300 shadow-[0_6px_20px_rgba(255,46,147,0.15)] hover:shadow-[0_10px_30px_rgba(255,46,147,0.3)] flex items-center justify-center gap-2">
+                    Get in Touch <i data-lucide="send" class="w-5 h-5"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Scrolling Marquee Ticker -->
+        <div class="absolute bottom-0 left-0 w-full bg-black py-3.5 border-y border-white/10 overflow-hidden">
+            <div class="marquee-inner">
+                <div class="flex gap-16 text-xs uppercase tracking-widest font-semibold text-gray-300">
+                    <span>⚡ Content Planning & Social Media</span>
+                    <span>⭐ Event Concept & Execution</span>
+                    <span>⚡ Visual & Media Production</span>
+                    <span>⭐ AI-Assisted Creativity</span>
+                    <span>⚡ English Linguistics Graduate</span>
+                </div>
+                <div class="flex gap-16 text-xs uppercase tracking-widest font-semibold text-gray-300 pl-16">
+                    <span>⚡ Content Planning & Social Media</span>
+                    <span>⭐ Event Concept & Execution</span>
+                    <span>⚡ Visual & Media Production</span>
+                    <span>⭐ AI-Assisted Creativity</span>
+                    <span>⚡ English Linguistics Graduate</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <hr class="pink-divider">
+
+    <!-- ===== ABOUT ME SECTION ===== -->
+    <section id="about" class="py-24 px-6 max-w-6xl mx-auto relative">
+        <div class="absolute -top-10 left-1/3 w-72 h-72 rounded-full bg-brand-pink opacity-5 filter blur-[120px]"></div>
+
+        <div class="relative mb-16 text-center md:text-left">
+            <span class="absolute -top-10 left-1/2 md:left-0 transform -translate-x-1/2 md:translate-x-0 font-cursive text-5xl text-black/5 tracking-widest italic select-none">
+                Get to know
+            </span>
+            <h2 class="text-4xl font-extrabold uppercase relative z-10 leading-tight text-black">
+                About <span class="text-brand-pink paint-stroke">Me</span>
+            </h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-12 items-center">
+            <!-- Left: Photo Frame -->
+            <div class="md:col-span-5 flex flex-col items-center">
+                <div class="relative w-72 h-96 group">
+                    <div class="absolute inset-0 bg-gradient-to-tr from-brand-pink to-brand-violet opacity-20 blur-2xl group-hover:opacity-40 transition duration-500 rounded-3xl"></div>
+
+                    <div class="w-full h-full relative z-10 bg-gray-100 border-4 border-black/10 transition-all duration-500 overflow-hidden shadow-xl"
+                         :class="{ 'mask-arch': imageMask === 'arch', 'rounded-3xl': imageMask === 'none' }"
+                         style="clip-path: none;"
+                         x-effect="if(imageMask === 'blob') { $el.style.clipPath = 'url(#blob-clip)' } else { $el.style.clipPath = 'none' }">
+
+                        <img :src="heroPhoto || 'https://placehold.co/400x600/f5f5f5/FF2E93?text=HUYEN+NGOC+LE'" onerror="imgFallback(this)"
+                             alt="Ngoc Huyen Le"
+                             class="w-full h-full object-cover transition-all duration-500 hover:scale-105"
+                             :class="{
+                                 'grayscale contrast-125 brightness-95': imageFilter === 'mono',
+                                 'mix-blend-luminosity brightness-90 saturate-150': imageFilter === 'duotone'
+                             }">
+                        <div x-show="imageFilter === 'duotone'" class="absolute inset-0 bg-brand-pink/15 mix-blend-color pointer-events-none"></div>
+                    </div>
+
+                    <!-- Sticker badge -->
+                    <div class="absolute -bottom-4 -right-4 bg-brand-pink text-white p-4 rounded-full font-cursive text-xs font-bold leading-tight rotate-12 shadow-2xl z-20 hover:rotate-0 transition duration-300">
+                        ✨ Hello! I'm Huyen
+                    </div>
+                    <!-- Decorative mini stars -->
+                    <div class="absolute -top-3 -left-3 text-brand-violet text-2xl floating-element select-none">✦</div>
+                    <div class="absolute top-8 -right-5 text-brand-pink text-lg floating-element-reverse select-none">★</div>
+                </div>
+
+            </div>
+
+            <!-- Right: Bio -->
+            <div class="md:col-span-7 space-y-6">
+                <h3 class="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-brand-pink to-brand-violet">
+                    Hi there! I'm Ngọc Huyền
+                </h3>
+
+                <p class="text-gray-600 leading-relaxed text-sm sm:text-base">
+                    Aspiring Brand/Account Intern and final-year <span class="text-black font-semibold underline decoration-brand-pink">English Studies</span> student. With a proven track record in project coordination and client-facing roles, I excel at bridging the gap between innovative creative concepts and business objectives. I bring a "hands-on" approach and a storytelling-first mindset to every project, committed to building authentic, high-impact brand identities that connect with audiences.
+                </p>
+
+                <!-- Education Card -->
+                <div class="bg-gray-50 border border-black/10 hover:border-brand-pink/30 transition p-6 rounded-2xl relative overflow-hidden group shimmer-border">
+                    <div class="absolute -right-10 -bottom-10 text-brand-pink/5 group-hover:text-brand-pink/10 transition duration-300">
+                        <i data-lucide="graduation-cap" class="w-40 h-40"></i>
+                    </div>
+                    <div class="flex items-start gap-4">
+                        <div class="bg-brand-pink/10 text-brand-pink p-3 rounded-xl">
+                            <i data-lucide="graduation-cap" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <span class="text-xs font-semibold text-brand-pink tracking-widest uppercase">Education</span>
+                            <h4 class="font-bold text-lg mt-1 text-black">Industrial University of Ho Chi Minh City (IUH)</h4>
+                            <p class="text-sm text-gray-500 mt-1">Bachelor of Arts in English Studies</p>
+                            <p class="text-xs text-gray-400 mt-1">Expected graduation: December 2026</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <svg class="absolute w-0 h-0" width="0" height="0">
+            <defs>
+                <clipPath id="blob-clip" clipPathUnits="objectBoundingBox">
+                    <path d="M0.165,0.18 C0.3,-0.03,0.7,-0.06,0.854,0.18 C1,0.42,1.02,0.72,0.84,0.865 C0.66,1,0.3,0.98,0.154,0.85 C-0.012,0.7,-0.03,0.4,0.165,0.18"></path>
+                </clipPath>
+            </defs>
+        </svg>
+    </section>
+
+    <hr class="pink-divider mx-6">
+
+    <!-- ===== SKILLS SECTION ===== -->
+    <section id="skills" class="py-24 px-6 bg-gray-50 border-y border-black/5 relative">
+        <div class="max-w-6xl mx-auto">
+            <div class="relative mb-16 text-center">
+                <span class="absolute -top-10 left-1/2 transform -translate-x-1/2 font-cursive text-5xl text-black/5 tracking-widest italic select-none">
+                    My superpowers
+                </span>
+                <h2 class="text-4xl font-extrabold uppercase relative z-10 leading-tight text-black">
+                    Skills & <span class="text-brand-pink paint-stroke">Expertise</span>
+                </h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12">
+                <!-- Skills -->
+                <div class="bg-white border border-black/10 p-8 rounded-3xl space-y-6 shadow-sm shimmer-border">
+                    <div class="flex items-center gap-3 border-b border-black/10 pb-4">
+                        <i data-lucide="award" class="w-6 h-6 text-brand-pink"></i>
+                        <h3 class="font-bold text-xl text-black">Skills</h3>
+                    </div>
+
+                    <ul class="space-y-5">
+                        <li class="flex items-start gap-3">
+                            <span class="text-brand-pink mt-1"><i data-lucide="check-circle" class="w-5 h-5"></i></span>
+                            <span class="text-gray-600 text-sm sm:text-base leading-relaxed"><strong class="text-black">Strategy & Social:</strong> Content Strategy, Brand Storytelling, Social Media Management.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-brand-pink mt-1"><i data-lucide="check-circle" class="w-5 h-5"></i></span>
+                            <span class="text-gray-600 text-sm sm:text-base leading-relaxed"><strong class="text-black">Operations & Event:</strong> End-to-end Project Coordination, Event Execution.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-brand-pink mt-1"><i data-lucide="check-circle" class="w-5 h-5"></i></span>
+                            <span class="text-gray-600 text-sm sm:text-base leading-relaxed"><strong class="text-black">Design & AI:</strong> Visual Design, Media Production, AI-Assisted Creative Workflow.</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Tools -->
+                <div class="bg-white border border-black/10 p-8 rounded-3xl space-y-6 shadow-sm flex flex-col justify-between shimmer-border">
+                    <div class="space-y-6">
+                        <div class="flex items-center gap-3 border-b border-black/10 pb-4">
+                            <i data-lucide="wrench" class="w-6 h-6 text-brand-violet"></i>
+                            <h3 class="font-bold text-xl text-black">Tools</h3>
+                        </div>
+
+                        <div class="space-y-4">
+                            <div>
+                                <span class="text-xs uppercase tracking-wider text-gray-400 font-semibold block mb-2">Design/Video</span>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="bg-brand-pink/10 border border-brand-pink/30 text-black px-3 py-1.5 rounded-xl text-xs flex items-center gap-1.5 hover:bg-brand-pink/20 transition">
+                                        <img src="https://cdn.simpleicons.org/adobephotoshop" class="w-3.5 h-3.5" alt="" onerror="this.remove()"> Adobe Photoshop
+                                    </span>
+                                    <span class="bg-brand-pink/10 border border-brand-pink/30 text-black px-3 py-1.5 rounded-xl text-xs flex items-center gap-1.5 hover:bg-brand-pink/20 transition">
+                                        <img src="https://cdn.simpleicons.org/canva" class="w-3.5 h-3.5" alt="" onerror="this.remove()"> Canva Pro
+                                    </span>
+                                    <span class="bg-brand-pink/10 border border-brand-pink/30 text-black px-3 py-1.5 rounded-xl text-xs flex items-center gap-1.5 hover:bg-brand-pink/20 transition">
+                                        <img src="https://cdn.simpleicons.org/capcut" class="w-3.5 h-3.5" alt="" onerror="this.remove()"> CapCut
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div>
+                                <span class="text-xs uppercase tracking-wider text-gray-400 font-semibold block mb-2">Productivity</span>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="bg-black/5 border border-black/10 text-black px-3 py-1.5 rounded-xl text-xs flex items-center gap-1.5 hover:bg-black/10 transition">
+                                        <img src="https://cdn.simpleicons.org/notion" class="w-3.5 h-3.5" alt="" onerror="this.remove()"> Notion
+                                    </span>
+                                    <span class="bg-black/5 border border-black/10 text-black px-3 py-1.5 rounded-xl text-xs flex items-center gap-1.5 hover:bg-black/10 transition">
+                                        <img src="https://cdn.simpleicons.org/googleworkspace" class="w-3.5 h-3.5" alt="" onerror="this.remove()"> Google Workspace
+                                    </span>
+                                    <span class="bg-brand-violet/10 border border-brand-violet/30 text-black px-3 py-1.5 rounded-xl text-xs flex items-center gap-1.5 hover:bg-brand-violet/20 transition">
+                                        <img src="https://cdn.simpleicons.org/openai" class="w-3.5 h-3.5" alt="" onerror="this.remove()"> ChatGPT
+                                    </span>
+                                    <span class="bg-brand-violet/10 border border-brand-violet/30 text-black px-3 py-1.5 rounded-xl text-xs flex items-center gap-1.5 hover:bg-brand-violet/20 transition">
+                                        <img src="https://cdn.simpleicons.org/anthropic" class="w-3.5 h-3.5" alt="" onerror="this.remove()"> Claude
+                                    </span>
+                                    <span class="bg-brand-violet/10 border border-brand-violet/30 text-black px-3 py-1.5 rounded-xl text-xs flex items-center gap-1.5 hover:bg-brand-violet/20 transition">
+                                        <img src="https://cdn.simpleicons.org/googlegemini" class="w-3.5 h-3.5" alt="" onerror="this.remove()"> Gemini
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="font-cursive text-sm text-right text-brand-pink pt-4">
+                        💡 Fluent in tools — powered by language & aesthetics!
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== EXPERIENCE SECTION ===== -->
+    <section id="experience" class="py-24 px-6 max-w-6xl mx-auto">
+        <div class="relative mb-16 text-center">
+            <span class="absolute -top-10 left-1/2 transform -translate-x-1/2 font-cursive text-5xl text-black/5 tracking-widest italic select-none">
+                My career path
+            </span>
+            <h2 class="text-4xl font-extrabold uppercase relative z-10 leading-tight text-black">
+                Work <span class="text-brand-pink paint-stroke">Experiences</span>
+            </h2>
+        </div>
+
+        <div class="flex flex-wrap justify-center gap-4 mb-12">
+            <button @click="activeExp = 'kasemi'"
+                    :class="activeExp === 'kasemi' ? 'bg-brand-pink text-white scale-105 shadow-[0_6px_20px_rgba(255,46,147,0.3)]' : 'bg-white border border-black/10 text-gray-500 hover:border-black/30'"
+                    class="px-6 py-3 rounded-full text-sm font-bold transition duration-300">
+                Kasemi Store
+            </button>
+            <button @click="activeExp = 'miso'"
+                    :class="activeExp === 'miso' ? 'bg-brand-pink text-white scale-105 shadow-[0_6px_20px_rgba(255,46,147,0.3)]' : 'bg-white border border-black/10 text-gray-500 hover:border-black/30'"
+                    class="px-6 py-3 rounded-full text-sm font-bold transition duration-300">
+                Miso Mentor & Miso Soup
+            </button>
+            <button @click="activeExp = 'kyna'"
+                    :class="activeExp === 'kyna' ? 'bg-brand-pink text-white scale-105 shadow-[0_6px_20px_rgba(255,46,147,0.3)]' : 'bg-white border border-black/10 text-gray-500 hover:border-black/30'"
+                    class="px-6 py-3 rounded-full text-sm font-bold transition duration-300">
+                Kyna English Center
+            </button>
+        </div>
+
+        <div class="bg-white border border-black/10 p-6 sm:p-10 rounded-3xl relative overflow-hidden shadow-sm">
+
+            <!-- Kasemi Tab -->
+            <div x-show="activeExp === 'kasemi'" x-transition:enter="transition duration-300 opacity-0" x-transition:enter-end="opacity-100" class="space-y-6">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-black/10 pb-4 gap-2">
+                    <div>
+                        <h3 class="text-2xl font-bold text-black">Kasemi Store</h3>
+                        <p class="text-brand-pink font-semibold">Product Development & Sales Collaborator</p>
+                    </div>
+                    <span class="text-xs font-semibold uppercase bg-black/5 border border-black/10 text-gray-500 px-4 py-2 rounded-full h-fit">
+                        🗓️ 06/2025 – 12/2025
+                    </span>
+                </div>
+
+                <ul class="space-y-4 text-gray-600 text-sm sm:text-base leading-relaxed">
+                    <li class="flex items-start gap-3">
+                        <span class="text-brand-pink mt-1"><i data-lucide="check-circle" class="w-5 h-5"></i></span>
+                        <span><strong class="text-black">Product Development:</strong> Led the design process for unique souvenir collections tailored to the aesthetic preferences of Gen Z locals and international tourists.</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <span class="text-brand-pink mt-1"><i data-lucide="check-circle" class="w-5 h-5"></i></span>
+                        <span><strong class="text-black">Operations & Supply Chain:</strong> Managed the full production cycle — from direct supplier negotiations for cost optimisation to quality checks on materials and finished goods.</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <span class="text-brand-pink mt-1"><i data-lucide="check-circle" class="w-5 h-5"></i></span>
+                        <span><strong class="text-black">Tourism Support & Language:</strong> Provided bilingual consultations for international tourists (Korean, Japanese, Singaporean, Taiwanese…) significantly boosting successful sales conversions.</span>
+                    </li>
+                </ul>
+
+                <div class="bg-brand-pink/5 border border-brand-pink/20 p-5 rounded-2xl flex items-center gap-4">
+                    <div class="bg-brand-pink text-white p-3 rounded-full animate-bounce">🏆</div>
+                    <div>
+                        <span class="text-xs uppercase tracking-wider font-semibold text-brand-pink">Key Achievement</span>
+                        <p class="text-sm font-semibold mt-0.5 text-black">
+                            Successfully launched the Vitrail keychain & Hanu sticker collection, generating an initial revenue of 5,000,000 VND with 100% positive design feedback.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="mt-4 space-y-3">
+                    <p class="text-xs font-semibold uppercase tracking-wider text-brand-pink">📸 Photo (Kasemi Store) — click photo to reveal 4 more</p>
+                    <div class="relative w-full h-52 rounded-2xl overflow-hidden border-2 border-dashed border-black/15 hover:border-brand-pink/50 transition bg-gray-50 flex items-center justify-center group cursor-pointer"
+                         @click="gallery.kasemi.expanded = !gallery.kasemi.expanded">
+                        <input type="file" @change.stop="uploadGalleryMain($event, 'kasemi')" @click.stop accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
+                        <img x-show="resolveImg(gallery.kasemi.main, gallery.kasemi.mainLink)" :src="resolveImg(gallery.kasemi.main, gallery.kasemi.mainLink)" onerror="imgFallback(this)" class="absolute inset-0 w-full h-full object-cover rounded-2xl transition-transform duration-500 ease-out group-hover:scale-105" alt="Kasemi photo">
+                        <div x-show="resolveImg(gallery.kasemi.main, gallery.kasemi.mainLink)" class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition duration-500 pointer-events-none"></div>
+                        <div x-show="!resolveImg(gallery.kasemi.main, gallery.kasemi.mainLink)" class="flex flex-col items-center gap-2 text-gray-400 group-hover:text-brand-pink transition">
+                            <i data-lucide="image-plus" class="w-8 h-8"></i>
+                            <span class="text-xs">Click to upload</span>
+                        </div>
+                        <button type="button" @click.stop="gallery.kasemi.expanded = !gallery.kasemi.expanded" class="absolute top-2 right-2 bg-black/50 hover:bg-black/70 text-white text-[10px] px-2.5 py-1 rounded-full flex items-center gap-1 z-30 cursor-pointer">
+                            <i data-lucide="layout-grid" class="w-3 h-3"></i> <span x-text="gallery.kasemi.expanded ? 'Hide gallery' : '+4 photos'"></span>
+                        </button>
+                    </div>
+                    <div x-show="gallery.kasemi.main" class="flex justify-end">
+                        <button @click="gallery.kasemi.main = ''" class="text-gray-400 hover:text-brand-pink transition text-xs px-3 py-2 border border-black/10 rounded-xl">Remove photo</button>
+                    </div>
+
+                    <div x-show="gallery.kasemi.expanded" x-transition x-data="{ captions: ['Visual Merchandising', 'Hanu sticker sheet', 'Hanu sticker pack', 'Handcrafted Product: Vitrail Keychain'] }" class="grid grid-cols-2 gap-4 pt-2">
+                        <template x-for="(img, i) in [0,1,2,3]" :key="i">
+                            <div class="space-y-2">
+                                <div class="relative w-full h-32 rounded-xl overflow-hidden border-2 border-dashed border-black/15 hover:border-brand-pink/50 transition bg-gray-50 flex items-center justify-center group cursor-pointer">
+                                    <input type="file" @change="uploadGalleryExtra($event, 'kasemi', i)" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
+                                    <img x-show="resolveImg(gallery.kasemi.extra[i], gallery.kasemi.extraLinks[i])" :src="resolveImg(gallery.kasemi.extra[i], gallery.kasemi.extraLinks[i])" onerror="imgFallback(this)" class="absolute inset-0 w-full h-full object-cover rounded-xl transition-transform duration-500 ease-out group-hover:scale-110" :alt="'Kasemi extra photo ' + (i+1)">
+                                    <div x-show="resolveImg(gallery.kasemi.extra[i], gallery.kasemi.extraLinks[i])" class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition duration-500 pointer-events-none"></div>
+                                    <button x-show="resolveImg(gallery.kasemi.extra[i], gallery.kasemi.extraLinks[i])" @click.stop="openZoom(resolveImg(gallery.kasemi.extra[i], gallery.kasemi.extraLinks[i]))" title="Zoom photo" class="absolute top-1.5 left-1/2 -translate-x-1/2 flex items-center justify-center z-20">
+                                        <i data-lucide="expand" class="w-5 h-5 text-white opacity-0 group-hover:opacity-100 scale-75 group-hover:scale-100 transition duration-500 drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)]"></i>
+                                    </button>
+                                    <div x-show="!resolveImg(gallery.kasemi.extra[i], gallery.kasemi.extraLinks[i])" class="flex flex-col items-center gap-1 text-gray-400 group-hover:text-brand-pink transition">
+                                        <i data-lucide="image-plus" class="w-5 h-5"></i>
+                                        <span class="text-[10px]" x-text="'Photo ' + (i+2)"></span>
+                                    </div>
+                                </div>
+                                <p class="text-[10px] text-gray-500 text-center leading-snug" x-text="captions[i]"></p>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Miso Tab -->
+            <div x-show="activeExp === 'miso'" x-transition:enter="transition duration-300 opacity-0" x-transition:enter-end="opacity-100" class="space-y-6">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-black/10 pb-4 gap-2">
+                    <div>
+                        <h3 class="text-2xl font-bold text-black">Miso Mentor & Miso Soup</h3>
+                        <p class="text-brand-pink font-semibold">Communications & Consulting Associate</p>
+                    </div>
+                    <span class="text-xs font-semibold uppercase bg-black/5 border border-black/10 text-gray-500 px-4 py-2 rounded-full h-fit">
+                        🗓️ 08/2024 – 12/2025
+                    </span>
+                </div>
+
+                <ul class="space-y-4 text-gray-600 text-sm sm:text-base leading-relaxed">
+                    <li class="flex items-start gap-3">
+                        <span class="text-brand-pink mt-1"><i data-lucide="check-circle" class="w-5 h-5"></i></span>
+                        <span><strong class="text-black">Psychology & MBTI Counselling:</strong> Guided students and young adults through official psychology/MBTI assessments to help them better understand their personal direction and identity.</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <span class="text-brand-pink mt-1"><i data-lucide="check-circle" class="w-5 h-5"></i></span>
+                        <span><strong class="text-black">Creative Communications (Social Media Growth):</strong> Served as the lead content creator and designer of eye-catching visuals and infographics to grow the "Miso Soup" channel.</span>
+                    </li>
+                </ul>
+
+                <div class="bg-brand-violet/5 border border-brand-violet/20 p-5 rounded-2xl flex items-center gap-4">
+                    <div class="bg-brand-violet text-white p-3 rounded-full">💡</div>
+                    <div>
+                        <span class="text-xs uppercase tracking-wider font-semibold text-brand-violet">Key Contribution</span>
+                        <p class="text-sm font-semibold mt-0.5 text-black">
+                            Crafted empathy-driven content that resonated directly with young learners' pain points, driving outstanding organic engagement growth on the channel.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="mt-4 space-y-5">
+                    <p class="text-xs font-semibold uppercase tracking-wider text-brand-pink">📸 Photos (Miso Mentor & Soup) — click a photo to reveal 2 more</p>
+                    <div class="grid grid-cols-2 gap-4">
+                        <template x-for="(f, idx) in gallery.miso.frames" :key="idx">
+                            <div class="space-y-2">
+                                <div class="relative w-full h-40 rounded-2xl overflow-hidden border-2 border-dashed border-black/15 hover:border-brand-violet/50 transition bg-gray-50 flex items-center justify-center group cursor-pointer"
+                                     @click="idx === 1 ? (f.expanded = !f.expanded) : null">
+                                    <input type="file" @change.stop="uploadMisoMain($event, idx)" @click.stop accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
+                                    <img x-show="resolveImg(f.main, f.mainLink)" :src="resolveImg(f.main, f.mainLink)" onerror="imgFallback(this)" class="absolute inset-0 w-full h-full object-cover rounded-2xl transition-transform duration-500 ease-out group-hover:scale-105" :alt="'Miso photo ' + (idx+1)">
+                                    <div x-show="resolveImg(f.main, f.mainLink)" class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition duration-500 pointer-events-none"></div>
+                                    <div x-show="!resolveImg(f.main, f.mainLink)" class="flex flex-col items-center gap-1 text-gray-400 group-hover:text-brand-violet transition">
+                                        <i data-lucide="image-plus" class="w-6 h-6"></i>
+                                        <span class="text-[10px]" x-text="'Photo ' + (idx+1)"></span>
+                                    </div>
+                                    <button type="button" x-show="idx === 1" @click.stop="f.expanded = !f.expanded" class="absolute top-2 right-2 bg-black/50 hover:bg-black/70 text-white text-[9px] px-2 py-1 rounded-full z-30 cursor-pointer" x-text="f.expanded ? 'Hide' : '+2'"></button>
+                                </div>
+                                <div class="flex flex-col gap-1.5">
+                                    <div class="relative" x-show="!f.site">
+                                        <i data-lucide="link-2" class="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-brand-violet/50"></i>
+                                        <input type="text" x-model="f.site" @input="setMisoSite(idx)" placeholder="Website link (https://...)" class="w-full bg-gray-50 border border-black/10 focus:border-brand-violet/50 text-black text-[11px] rounded-lg pl-8 pr-3 py-2 outline-none placeholder:text-gray-400 transition">
+                                    </div>
+                                    <div class="flex gap-1.5" x-show="f.site">
+                                        <a :href="normalizeUrl(f.site)" class="flex-1 flex items-center justify-center gap-1 bg-gradient-to-r from-brand-violet to-brand-pink text-white text-[11px] font-bold px-3 py-2 rounded-lg shadow-[0_4px_12px_rgba(123,44,191,0.3)] hover:shadow-[0_6px_16px_rgba(123,44,191,0.45)] hover:scale-105 active:scale-95 transition">
+                                            For more details <i data-lucide="arrow-up-right" class="w-3 h-3"></i>
+                                        </a>
+                                        <button @click="f.site = ''; setMisoSite(idx)" title="Edit link" class="text-gray-400 hover:text-brand-violet transition text-[11px] px-2.5 py-2 border border-black/10 rounded-lg">
+                                            <i data-lucide="pencil" class="w-3 h-3"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div x-show="idx === 1 && f.expanded" x-transition x-data="{ captions: ['Crafting visual storytelling', 'Developing life quotes'] }" class="grid grid-cols-2 gap-2 pt-1">
+                                    <template x-for="(e, j) in [0,1]" :key="j">
+                                        <div class="space-y-1">
+                                            <div class="relative w-full h-24 rounded-lg overflow-hidden border-2 border-dashed border-black/15 hover:border-brand-violet/50 transition bg-gray-50 flex items-center justify-center group cursor-pointer">
+                                                <input type="file" @change="uploadMisoExtra($event, idx, j)" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
+                                                <img x-show="resolveImg(f.extra[j], f.extraLinks[j])" :src="resolveImg(f.extra[j], f.extraLinks[j])" onerror="imgFallback(this)" class="absolute inset-0 w-full h-full object-cover rounded-lg transition-transform duration-500 ease-out group-hover:scale-110" alt="Miso extra photo">
+                                                <div x-show="resolveImg(f.extra[j], f.extraLinks[j])" class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition duration-500 pointer-events-none"></div>
+                                                <button x-show="resolveImg(f.extra[j], f.extraLinks[j])" @click.stop="openZoom(resolveImg(f.extra[j], f.extraLinks[j]))" title="Zoom photo" class="absolute top-1 left-1/2 -translate-x-1/2 flex items-center justify-center z-20">
+                                                    <i data-lucide="expand" class="w-4 h-4 text-white opacity-0 group-hover:opacity-100 scale-75 group-hover:scale-100 transition duration-500 drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)]"></i>
+                                                </button>
+                                                <i x-show="!resolveImg(f.extra[j], f.extraLinks[j])" data-lucide="image-plus" class="w-4 h-4 text-gray-400 group-hover:text-brand-violet transition"></i>
+                                            </div>
+                                            <p class="text-[10px] text-gray-500 text-center leading-snug" x-text="captions[j]"></p>
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Kyna Tab -->
+            <div x-show="activeExp === 'kyna'" x-transition:enter="transition duration-300 opacity-0" x-transition:enter-end="opacity-100" class="space-y-6">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-black/10 pb-4 gap-2">
+                    <div>
+                        <h3 class="text-2xl font-bold text-black">Kyna English Center</h3>
+                        <p class="text-brand-pink font-semibold">English Teacher</p>
+                    </div>
+                    <span class="text-xs font-semibold uppercase bg-black/5 border border-black/10 text-gray-500 px-4 py-2 rounded-full h-fit">
+                        🗓️ 08/2024 – 03/2025
+                    </span>
+                </div>
+
+                <ul class="space-y-4 text-gray-600 text-sm sm:text-base leading-relaxed">
+                    <li class="flex items-start gap-3">
+                        <span class="text-brand-pink mt-1"><i data-lucide="check-circle" class="w-5 h-5"></i></span>
+                        <span><strong class="text-black">Teaching & Inspiration:</strong> Planned and delivered highly interactive English lessons for young children, fostering a dynamic atmosphere that encouraged natural language thinking.</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <span class="text-brand-pink mt-1"><i data-lucide="check-circle" class="w-5 h-5"></i></span>
+                        <span><strong class="text-black">Classroom Management & Customer Care:</strong> Conducted thorough periodic progress evaluations for each student, provided thoughtful feedback, and built strong trust with parents.</span>
+                    </li>
+                </ul>
+
+                <div class="mt-4 space-y-3">
+                    <p class="text-xs font-semibold uppercase tracking-wider text-gray-400">📸 Photo (Kyna English Center)</p>
+                    <div class="relative w-full h-52 rounded-2xl overflow-hidden border-2 border-dashed border-black/15 hover:border-brand-pink/50 transition bg-gray-50 flex items-center justify-center group cursor-pointer">
+                        <input type="file" @change="uploadExpPhoto($event, 'kyna')" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
+                        <img x-show="resolveImg(expImages.kyna, expLinks.kyna)" :src="resolveImg(expImages.kyna, expLinks.kyna)" onerror="imgFallback(this)" class="absolute inset-0 w-full h-full object-cover rounded-2xl" alt="Kyna photo">
+                        <div x-show="!resolveImg(expImages.kyna, expLinks.kyna)" class="flex flex-col items-center gap-2 text-gray-400 group-hover:text-brand-pink transition">
+                            <i data-lucide="image-plus" class="w-8 h-8"></i>
+                            <span class="text-xs">Click to upload</span>
+                        </div>
+                    </div>
+                    <div x-show="expImages.kyna" class="flex justify-end">
+                        <button @click="expImages.kyna = ''" class="text-gray-400 hover:text-brand-pink transition text-xs px-3 py-2 border border-black/10 rounded-xl">Remove photo</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <hr class="pink-divider mx-6">
+
+    <!-- ===== EXTRA-CURRICULAR ACTIVITIES ===== -->
+    <section id="extra" class="py-24 px-6 bg-gray-50 border-t border-black/5 relative">
+        <div class="max-w-6xl mx-auto">
+            <div class="relative mb-16 text-center">
+                <span class="absolute -top-10 left-1/2 transform -translate-x-1/2 font-cursive text-5xl text-black/5 tracking-widest italic select-none">
+                    Impactful projects
+                </span>
+                <h2 class="text-4xl font-extrabold uppercase relative z-10 leading-tight text-black">
+                    My <span class="text-brand-pink paint-stroke">Projects</span>
+                </h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
+                <!-- Frogsleap -->
+                <div class="bg-white border border-black/10 hover:border-brand-pink/30 hover:scale-[1.02] transition duration-300 rounded-3xl p-6 flex flex-col justify-between shadow-sm shimmer-border">
+                    <div class="space-y-4">
+                        <span class="text-[10px] uppercase tracking-widest bg-brand-pink/10 text-brand-pink px-3 py-1 rounded-full font-bold">
+                            🐸 Frogsleap Vietnam
+                        </span>
+                        <h3 class="text-xl font-bold text-black">Project Leadership & Coordination</h3>
+                        <p class="text-xs text-gray-400">11/2024 – Present</p>
+                        <ul class="text-xs text-gray-600 space-y-2 leading-relaxed">
+                            <li class="flex gap-2">🚀 <span><strong class="text-black">Program Lead:</strong> Orchestrated the program's strategic roadmap, managing end-to-end event planning and team workflows to ensure seamless execution.</span></li>
+                            <li class="flex gap-2">✨ <span><strong class="text-black">Mini-Project Lead:</strong> Spearheaded the "Hop for Hope" project, donating solar lights to the Thien An Hearing-Impaired Special School.</span></li>
+                            <li class="flex gap-2">🌐 <span><strong class="text-black">International Exchange Liaison:</strong> Served as the main collaborator of Frogsleap alongside St. Joseph's Institution (SJI) Singapore, guiding event scripts and interpreting for the delegation.</span></li>
+                        </ul>
+                    </div>
+                    <div class="mt-4 space-y-2">
+                        <div class="relative w-full h-36 rounded-xl overflow-hidden border-2 border-dashed border-black/15 hover:border-brand-pink/50 transition bg-gray-50 flex items-center justify-center group cursor-pointer"
+                             @click="gallery.frogsleap.expanded = !gallery.frogsleap.expanded">
+                            <input type="file" @change.stop="uploadGalleryMain($event, 'frogsleap')" @click.stop accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
+                            <img x-show="resolveImg(gallery.frogsleap.main, gallery.frogsleap.mainLink)" :src="resolveImg(gallery.frogsleap.main, gallery.frogsleap.mainLink)" onerror="imgFallback(this)" class="absolute inset-0 w-full h-full object-cover rounded-xl" alt="Frogsleap photo">
+                            <div x-show="!resolveImg(gallery.frogsleap.main, gallery.frogsleap.mainLink)" class="flex flex-col items-center gap-1 text-gray-400 group-hover:text-brand-pink transition">
+                                <i data-lucide="image-plus" class="w-6 h-6"></i>
+                                <span class="text-[10px]">Upload photo</span>
+                            </div>
+                            <button type="button" @click.stop="gallery.frogsleap.expanded = !gallery.frogsleap.expanded" class="absolute top-2 right-2 bg-black/50 hover:bg-black/70 text-white text-[9px] px-2 py-1 rounded-full z-30 cursor-pointer" x-text="gallery.frogsleap.expanded ? 'Hide' : '+3'"></button>
+                        </div>
+                        <div class="flex flex-col gap-1.5">
+                            <div class="relative" x-show="!gallery.frogsleap.site">
+                                <i data-lucide="link-2" class="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-brand-pink/50"></i>
+                                <input type="text" x-model="gallery.frogsleap.site" @input="setGallerySite('frogsleap')" placeholder="Website link (https://...)" class="w-full bg-gray-50 border border-black/10 focus:border-brand-pink/40 text-black text-[10px] rounded-lg pl-8 pr-3 py-2 outline-none placeholder:text-gray-400 transition">
+                            </div>
+                            <div class="flex gap-1.5" x-show="gallery.frogsleap.site">
+                                <a :href="normalizeUrl(gallery.frogsleap.site)" class="flex-1 flex items-center justify-center gap-1 bg-gradient-to-r from-brand-pink to-brand-violet text-white text-[11px] font-bold px-3 py-2 rounded-lg shadow-[0_4px_12px_rgba(255,46,147,0.3)] hover:scale-105 active:scale-95 transition">
+                                    For more details <i data-lucide="arrow-up-right" class="w-3 h-3"></i>
+                                </a>
+                                <button @click="gallery.frogsleap.site = ''; setGallerySite('frogsleap')" title="Edit link" class="text-gray-400 hover:text-brand-pink transition text-[11px] px-2.5 py-2 border border-black/10 rounded-lg">
+                                    <i data-lucide="pencil" class="w-3 h-3"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div x-show="gallery.frogsleap.expanded" x-transition class="grid grid-cols-3 gap-2 pt-1">
+                            <template x-for="(e, i) in [0,1,2]" :key="i">
+                                <div class="space-y-1">
+                                    <div class="relative w-full h-24 rounded-lg overflow-hidden border-2 border-dashed border-black/15 hover:border-brand-pink/50 transition bg-gray-50 flex items-center justify-center group cursor-pointer">
+                                        <input type="file" @change="uploadGalleryExtra($event, 'frogsleap', i)" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
+                                        <img x-show="resolveImg(gallery.frogsleap.extra[i], gallery.frogsleap.extraLinks[i])" :src="resolveImg(gallery.frogsleap.extra[i], gallery.frogsleap.extraLinks[i])" onerror="imgFallback(this)" class="absolute inset-0 w-full h-full object-cover rounded-lg" alt="Frogsleap extra photo">
+                                        <div x-show="resolveImg(gallery.frogsleap.extra[i], gallery.frogsleap.extraLinks[i])" class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition duration-500 pointer-events-none"></div>
+                                        <button x-show="resolveImg(gallery.frogsleap.extra[i], gallery.frogsleap.extraLinks[i])" @click.stop="openZoom(resolveImg(gallery.frogsleap.extra[i], gallery.frogsleap.extraLinks[i]))" title="Zoom photo" class="absolute top-1 left-1/2 -translate-x-1/2 flex items-center justify-center z-20">
+                                            <i data-lucide="expand" class="w-4 h-4 text-white opacity-0 group-hover:opacity-100 scale-75 group-hover:scale-100 transition duration-500 drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)]"></i>
+                                        </button>
+                                        <i x-show="!resolveImg(gallery.frogsleap.extra[i], gallery.frogsleap.extraLinks[i])" data-lucide="image-plus" class="w-4 h-4 text-gray-400 group-hover:text-brand-pink transition"></i>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Happy Hands -->
+                <div class="bg-white border border-black/10 hover:border-brand-violet/30 hover:scale-[1.02] transition duration-300 rounded-3xl p-6 flex flex-col justify-between shadow-sm shimmer-border">
+                    <div class="space-y-4">
+                        <span class="text-[10px] uppercase tracking-widest bg-brand-violet/10 text-brand-violet px-3 py-1 rounded-full font-bold">
+                            🌿 Happy Hands
+                        </span>
+                        <h3 class="text-xl font-bold text-black">Communications & Logistics Collaborator</h3>
+                        <p class="text-xs text-gray-400">06/2025</p>
+                        <ul class="text-xs text-gray-600 space-y-2 leading-relaxed">
+                            <li class="flex gap-2">✍️ <span><strong class="text-black">Content Creation:</strong> Directly designed promotional graphics and planned communications campaigns to raise environmental awareness in the city.</span></li>
+                            <li class="flex gap-2">🛠️ <span><strong class="text-black">Practical Logistics:</strong> Prepared cleaning equipment for community waste sites in Da Lat & Nha Trang.</span></li>
+                        </ul>
+                    </div>
+                    <div class="mt-4 space-y-2">
+                        <div class="relative w-full h-36 rounded-xl overflow-hidden border-2 border-dashed border-black/15 hover:border-brand-violet/50 transition bg-gray-50 flex items-center justify-center group cursor-pointer"
+                             @click="gallery.happyhands.expanded = !gallery.happyhands.expanded">
+                            <input type="file" @change.stop="uploadGalleryMain($event, 'happyhands')" @click.stop accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
+                            <img x-show="resolveImg(gallery.happyhands.main, gallery.happyhands.mainLink)" :src="resolveImg(gallery.happyhands.main, gallery.happyhands.mainLink)" onerror="imgFallback(this)" class="absolute inset-0 w-full h-full object-cover rounded-xl" alt="Happy Hands photo">
+                            <div x-show="!resolveImg(gallery.happyhands.main, gallery.happyhands.mainLink)" class="flex flex-col items-center gap-1 text-gray-400 group-hover:text-brand-violet transition">
+                                <i data-lucide="image-plus" class="w-6 h-6"></i>
+                                <span class="text-[10px]">Upload photo</span>
+                            </div>
+                            <button type="button" @click.stop="gallery.happyhands.expanded = !gallery.happyhands.expanded" class="absolute top-2 right-2 bg-black/50 hover:bg-black/70 text-white text-[9px] px-2 py-1 rounded-full z-30 cursor-pointer" x-text="gallery.happyhands.expanded ? 'Hide' : '+3'"></button>
+                        </div>
+                        <div class="flex flex-col gap-1.5">
+                            <div class="relative" x-show="!gallery.happyhands.site">
+                                <i data-lucide="link-2" class="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-brand-violet/50"></i>
+                                <input type="text" x-model="gallery.happyhands.site" @input="setGallerySite('happyhands')" placeholder="Website link (https://...)" class="w-full bg-gray-50 border border-black/10 focus:border-brand-violet/40 text-black text-[10px] rounded-lg pl-8 pr-3 py-2 outline-none placeholder:text-gray-400 transition">
+                            </div>
+                            <div class="flex gap-1.5" x-show="gallery.happyhands.site">
+                                <a :href="normalizeUrl(gallery.happyhands.site)" class="flex-1 flex items-center justify-center gap-1 bg-gradient-to-r from-brand-violet to-brand-pink text-white text-[11px] font-bold px-3 py-2 rounded-lg shadow-[0_4px_12px_rgba(123,44,191,0.3)] hover:scale-105 active:scale-95 transition">
+                                    For more details <i data-lucide="arrow-up-right" class="w-3 h-3"></i>
+                                </a>
+                                <button @click="gallery.happyhands.site = ''; setGallerySite('happyhands')" title="Edit link" class="text-gray-400 hover:text-brand-violet transition text-[11px] px-2.5 py-2 border border-black/10 rounded-lg">
+                                    <i data-lucide="pencil" class="w-3 h-3"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div x-show="gallery.happyhands.expanded" x-transition class="grid grid-cols-3 gap-2 pt-1">
+                            <template x-for="(e, i) in [0,1,2]" :key="i">
+                                <div class="space-y-1">
+                                    <div class="relative w-full h-24 rounded-lg overflow-hidden border-2 border-dashed border-black/15 hover:border-brand-violet/50 transition bg-gray-50 flex items-center justify-center group cursor-pointer">
+                                        <input type="file" @change="uploadGalleryExtra($event, 'happyhands', i)" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
+                                        <img x-show="resolveImg(gallery.happyhands.extra[i], gallery.happyhands.extraLinks[i])" :src="resolveImg(gallery.happyhands.extra[i], gallery.happyhands.extraLinks[i])" onerror="imgFallback(this)" class="absolute inset-0 w-full h-full object-cover rounded-lg" alt="Happy Hands extra photo">
+                                        <div x-show="resolveImg(gallery.happyhands.extra[i], gallery.happyhands.extraLinks[i])" class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition duration-500 pointer-events-none"></div>
+                                        <button x-show="resolveImg(gallery.happyhands.extra[i], gallery.happyhands.extraLinks[i])" @click.stop="openZoom(resolveImg(gallery.happyhands.extra[i], gallery.happyhands.extraLinks[i]))" title="Zoom photo" class="absolute top-1 left-1/2 -translate-x-1/2 flex items-center justify-center z-20">
+                                            <i data-lucide="expand" class="w-4 h-4 text-white opacity-0 group-hover:opacity-100 scale-75 group-hover:scale-100 transition duration-500 drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)]"></i>
+                                        </button>
+                                        <i x-show="!resolveImg(gallery.happyhands.extra[i], gallery.happyhands.extraLinks[i])" data-lucide="image-plus" class="w-4 h-4 text-gray-400 group-hover:text-brand-violet transition"></i>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- UMX -->
+                <div class="bg-white border border-black/10 hover:border-brand-pink/30 hover:scale-[1.02] transition duration-300 rounded-3xl p-6 flex flex-col justify-between shadow-sm shimmer-border">
+                    <div class="space-y-4">
+                        <span class="text-[10px] uppercase tracking-widest bg-black/5 text-gray-500 px-3 py-1 rounded-full font-bold">
+                            🎓 UMX Project
+                        </span>
+                        <h3 class="text-xl font-bold text-black">English Teacher</h3>
+                        <p class="text-xs text-gray-400">02/2026 – 05/2026</p>
+                        <ul class="text-xs text-gray-600 space-y-2 leading-relaxed">
+                            <li class="flex gap-2">💻 <span><strong class="text-black">Remote Highland Teaching:</strong> Taught English online via Zoom to over 80 ethnic minority children at Son Vi Primary School.</span></li>
+                            <li class="flex gap-2">⭐ <span><strong class="text-black">Dedication:</strong> Completed the full programme at a high standard, earning official recognition from local authorities.</span></li>
+                        </ul>
+                    </div>
+                    <div class="mt-4 space-y-2">
+                        <div class="relative w-full h-36 rounded-xl overflow-hidden border-2 border-dashed border-black/15 hover:border-black/30 transition bg-gray-50 flex items-center justify-center group cursor-pointer"
+                             @click="gallery.umx.expanded = !gallery.umx.expanded">
+                            <input type="file" @change.stop="uploadGalleryMain($event, 'umx')" @click.stop accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
+                            <img x-show="resolveImg(gallery.umx.main, gallery.umx.mainLink)" :src="resolveImg(gallery.umx.main, gallery.umx.mainLink)" onerror="imgFallback(this)" class="absolute inset-0 w-full h-full object-cover rounded-xl" alt="UMX photo">
+                            <div x-show="!resolveImg(gallery.umx.main, gallery.umx.mainLink)" class="flex flex-col items-center gap-1 text-gray-400 group-hover:text-gray-600 transition">
+                                <i data-lucide="image-plus" class="w-6 h-6"></i>
+                                <span class="text-[10px]">Upload photo</span>
+                            </div>
+                            <button type="button" @click.stop="gallery.umx.expanded = !gallery.umx.expanded" class="absolute top-2 right-2 bg-black/50 hover:bg-black/70 text-white text-[9px] px-2 py-1 rounded-full z-30 cursor-pointer" x-text="gallery.umx.expanded ? 'Hide' : '+1'"></button>
+                        </div>
+                        <div class="flex flex-col gap-1.5">
+                            <div class="relative" x-show="!gallery.umx.site">
+                                <i data-lucide="link-2" class="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400"></i>
+                                <input type="text" x-model="gallery.umx.site" @input="setGallerySite('umx')" placeholder="Website link (https://...)" class="w-full bg-gray-50 border border-black/10 focus:border-black/30 text-black text-[10px] rounded-lg pl-8 pr-3 py-2 outline-none placeholder:text-gray-400 transition">
+                            </div>
+                            <div class="flex gap-1.5" x-show="gallery.umx.site">
+                                <a :href="normalizeUrl(gallery.umx.site)" class="flex-1 flex items-center justify-center gap-1 bg-gradient-to-r from-black to-gray-700 text-white text-[11px] font-bold px-3 py-2 rounded-lg shadow-[0_4px_12px_rgba(0,0,0,0.2)] hover:scale-105 active:scale-95 transition">
+                                    For more details <i data-lucide="arrow-up-right" class="w-3 h-3"></i>
+                                </a>
+                                <button @click="gallery.umx.site = ''; setGallerySite('umx')" title="Edit link" class="text-gray-400 hover:text-gray-600 transition text-[11px] px-2.5 py-2 border border-black/10 rounded-lg">
+                                    <i data-lucide="pencil" class="w-3 h-3"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div x-show="gallery.umx.expanded" x-transition class="grid grid-cols-3 gap-2 pt-1">
+                            <div class="space-y-1">
+                                <div class="relative w-full h-24 rounded-lg overflow-hidden border-2 border-dashed border-black/15 hover:border-black/30 transition bg-gray-50 flex items-center justify-center group cursor-pointer">
+                                    <input type="file" @change="uploadGalleryExtra($event, 'umx', 0)" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
+                                    <img x-show="resolveImg(gallery.umx.extra[0], gallery.umx.extraLinks[0])" :src="resolveImg(gallery.umx.extra[0], gallery.umx.extraLinks[0])" onerror="imgFallback(this)" class="absolute inset-0 w-full h-full object-cover rounded-lg" alt="UMX extra photo">
+                                    <div x-show="resolveImg(gallery.umx.extra[0], gallery.umx.extraLinks[0])" class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition duration-500 pointer-events-none"></div>
+                                    <button x-show="resolveImg(gallery.umx.extra[0], gallery.umx.extraLinks[0])" @click.stop="openZoom(resolveImg(gallery.umx.extra[0], gallery.umx.extraLinks[0]))" title="Zoom photo" class="absolute top-1 left-1/2 -translate-x-1/2 flex items-center justify-center z-20">
+                                        <i data-lucide="expand" class="w-4 h-4 text-white opacity-0 group-hover:opacity-100 scale-75 group-hover:scale-100 transition duration-500 drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)]"></i>
+                                    </button>
+                                    <i x-show="!resolveImg(gallery.umx.extra[0], gallery.umx.extraLinks[0])" data-lucide="image-plus" class="w-4 h-4 text-gray-400 group-hover:text-gray-600 transition"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Other Highlights -->
+            <div class="mt-16">
+                <h3 class="text-xs uppercase tracking-[0.3em] text-gray-400 font-bold text-center mb-8">Other Highlights</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="bg-white p-5 rounded-2xl hover:bg-gray-50 transition border border-black/10 shadow-sm shimmer-border">
+                        <i data-lucide="sparkles" class="w-5 h-5 text-brand-pink mb-3"></i>
+                        <h4 class="font-bold text-sm text-black">Event Coordinator</h4>
+                        <p class="text-[11px] text-gray-500 mt-1">Coordinated and welcomed guests at a personal branding workshop hosted by speaker Meichan.</p>
+                        <div class="relative w-full h-24 mt-3 rounded-lg overflow-hidden border-2 border-dashed border-black/15 hover:border-brand-pink/50 transition bg-gray-50 flex items-center justify-center group cursor-pointer">
+                            <input type="file" @change="uploadOtherPhoto($event, 'eventcoord')" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
+                            <img x-show="otherImages.eventcoord" :src="otherImages.eventcoord" onerror="imgFallback(this)" class="absolute inset-0 w-full h-full object-cover rounded-lg" alt="Event Coordinator photo">
+                            <i x-show="!otherImages.eventcoord" data-lucide="image-plus" class="w-5 h-5 text-gray-400 group-hover:text-brand-pink transition"></i>
+                        </div>
+                    </div>
+                    <div class="bg-white p-5 rounded-2xl hover:bg-gray-50 transition border border-black/10 shadow-sm shimmer-border">
+                        <i data-lucide="users" class="w-5 h-5 text-brand-violet mb-3"></i>
+                        <h4 class="font-bold text-sm text-black">Tribe Leader</h4>
+                        <p class="text-[11px] text-gray-500 mt-1">Led a group as a Tribe Leader at the Leadership Summit of AIESEC Vietnam, the world's largest youth organisation.</p>
+                        <div class="relative w-full h-24 mt-3 rounded-lg overflow-hidden border-2 border-dashed border-black/15 hover:border-brand-violet/50 transition bg-gray-50 flex items-center justify-center group cursor-pointer">
+                            <input type="file" @change="uploadOtherPhoto($event, 'tribeleader')" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
+                            <img x-show="otherImages.tribeleader" :src="otherImages.tribeleader" onerror="imgFallback(this)" class="absolute inset-0 w-full h-full object-cover rounded-lg" alt="Tribe Leader photo">
+                            <i x-show="!otherImages.tribeleader" data-lucide="image-plus" class="w-5 h-5 text-gray-400 group-hover:text-brand-violet transition"></i>
+                        </div>
+                    </div>
+                    <div class="bg-white p-5 rounded-2xl hover:bg-gray-50 transition border border-black/10 shadow-sm shimmer-border">
+                        <i data-lucide="compass" class="w-5 h-5 text-brand-pink mb-3"></i>
+                        <h4 class="font-bold text-sm text-black">English Tour Guide</h4>
+                        <p class="text-[11px] text-gray-500 mt-1">Facilitated international student exchanges for visiting exchange students at IUH (Ho Chi Minh City University of Industry).</p>
+                        <div class="relative w-full h-24 mt-3 rounded-lg overflow-hidden border-2 border-dashed border-black/15 hover:border-brand-pink/50 transition bg-gray-50 flex items-center justify-center group cursor-pointer">
+                            <input type="file" @change="uploadOtherPhoto($event, 'tourguide')" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
+                            <img x-show="otherImages.tourguide" :src="otherImages.tourguide" onerror="imgFallback(this)" class="absolute inset-0 w-full h-full object-cover rounded-lg" alt="English Tour Guide photo">
+                            <i x-show="!otherImages.tourguide" data-lucide="image-plus" class="w-5 h-5 text-gray-400 group-hover:text-brand-pink transition"></i>
+                        </div>
+                    </div>
+                    <div class="bg-white p-5 rounded-2xl hover:bg-gray-50 transition border border-black/10 shadow-sm shimmer-border">
+                        <i data-lucide="heart" class="w-5 h-5 text-brand-violet mb-3"></i>
+                        <h4 class="font-bold text-sm text-black">Sales & Management</h4>
+                        <p class="text-[11px] text-gray-500 mt-1">Led a craft team at SkillXplore's charity auction fundraiser supporting children with disabilities.</p>
+                        <div class="relative w-full h-24 mt-3 rounded-lg overflow-hidden border-2 border-dashed border-black/15 hover:border-brand-violet/50 transition bg-gray-50 flex items-center justify-center group cursor-pointer">
+                            <input type="file" @change="uploadOtherPhoto($event, 'sales')" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
+                            <img x-show="otherImages.sales" :src="otherImages.sales" onerror="imgFallback(this)" class="absolute inset-0 w-full h-full object-cover rounded-lg" alt="Sales & Management photo">
+                            <i x-show="!otherImages.sales" data-lucide="image-plus" class="w-5 h-5 text-gray-400 group-hover:text-brand-violet transition"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <hr class="pink-divider">
+
+
+    <!-- ===== ZOOM MODAL for secondary/gallery photos ===== -->
+    <div x-show="zoomOpen"
+         x-transition:enter="transition ease-out duration-300"
+         x-transition:enter-start="opacity-0"
+         x-transition:enter-end="opacity-100"
+         x-transition:leave="transition ease-in duration-200"
+         x-transition:leave-start="opacity-100"
+         x-transition:leave-end="opacity-0"
+         @keydown.window.escape="closeZoom()"
+         class="fixed inset-0 z-[100] bg-black/90 backdrop-blur-sm flex items-center justify-center p-4 sm:p-10"
+         style="display: none;">
+        <button @click="closeZoom()" title="Close" class="absolute top-5 right-5 sm:top-8 sm:right-8 w-10 h-10 rounded-full bg-white/10 hover:bg-brand-pink text-white flex items-center justify-center transition z-10">
+            <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+        <img x-show="zoomOpen" :src="zoomSrc" onerror="imgFallback(this)"
+             x-transition:enter="transition ease-out duration-300 delay-75"
+             x-transition:enter-start="opacity-0 scale-95"
+             x-transition:enter-end="opacity-100 scale-100"
+             @click.outside="closeZoom()"
+             class="max-w-full max-h-full rounded-lg shadow-[0_20px_60px_rgba(0,0,0,0.5)] object-contain"
+             alt="Enlarged photo">
+    </div>
+
+    <hr class="pink-divider">
+
+    <!-- ===== CONTACT SECTION ===== -->
+    <section id="contact" class="py-24 px-6 max-w-5xl mx-auto text-center relative">
+        <div class="absolute -bottom-10 left-1/2 transform -translate-x-1/2 w-80 h-80 rounded-full bg-brand-violet opacity-5 filter blur-[150px]"></div>
+        <!-- Doodle art in contact section -->
+        <div class="absolute top-12 left-4 text-brand-pink opacity-20 floating-element select-none">
+            <svg class="w-14 h-14" fill="none" viewBox="0 0 60 60" stroke="currentColor" stroke-width="1.5">
+                <path d="M30 5 L35 25 L55 25 L40 37 L45 57 L30 45 L15 57 L20 37 L5 25 L25 25 Z" stroke-linejoin="round"/>
+            </svg>
+        </div>
+        <div class="absolute bottom-20 right-4 text-brand-violet opacity-20 floating-element-reverse select-none">
+            <svg class="w-12 h-12" fill="none" viewBox="0 0 50 50" stroke="currentColor" stroke-width="1.5">
+                <circle cx="25" cy="25" r="20" stroke-dasharray="6 4"/>
+                <circle cx="25" cy="25" r="8" fill="currentColor" opacity="0.3"/>
+            </svg>
+        </div>
+
+        <div class="space-y-6 z-10 relative">
+            <h2 class="text-4xl sm:text-6xl font-extrabold tracking-tight text-black">
+                Let's create something <br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-pink to-brand-violet font-cursive lowercase">extraordinary</span> together.
+            </h2>
+
+            <p class="text-gray-500 max-w-lg mx-auto text-sm sm:text-base">
+                I'm always open to exciting new projects, freelance work, internships, and long-term collaborations. Don't hesitate to reach out and say hello!
+            </p>
+
+            <!-- ===== PHOTO FRAME IN CONTACT ===== -->
+            <div class="flex justify-center py-6">
+                <div class="relative group">
+                    <!-- Polaroid frame -->
+                    <div class="polaroid-frame bg-white shadow-2xl border border-black/10 p-4 pb-10 rounded-sm w-56 relative z-10 cursor-pointer">
+                        <!-- Photo area -->
+                        <div class="relative w-full h-48 bg-gray-100 overflow-hidden rounded-sm">
+                            <input type="file" @change="uploadContactPhoto" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
+                            <img x-show="contactPhoto" :src="contactPhoto" onerror="imgFallback(this)" class="absolute inset-0 w-full h-full object-cover" alt="Huyen Ngoc Le">
+                            <div x-show="!contactPhoto" class="absolute inset-0 flex flex-col items-center justify-center gap-2 text-gray-400 group-hover:text-brand-pink transition">
+                                <i data-lucide="camera" class="w-8 h-8"></i>
+                                <span class="text-[10px] font-semibold text-center px-2">Click to add your photo here!</span>
+                                <span class="text-[9px] text-gray-300">PNG, JPG, WebP</span>
+                            </div>
+                        </div>
+                        <!-- Polaroid caption -->
+                        <div class="mt-3 text-center font-cursive text-sm text-gray-500">Huyen Ngoc Le ✨</div>
+                    </div>
+                    <!-- Decorative tape strips -->
+                    <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 w-10 h-5 bg-brand-pink/30 rounded-sm rotate-2 z-20"></div>
+                    <!-- Shadow layer -->
+                    <div class="absolute inset-0 bg-gradient-to-br from-brand-pink/10 to-brand-violet/10 blur-xl rounded-3xl -z-10 group-hover:opacity-80 transition duration-500"></div>
+                    <!-- Stars around frame -->
+                    <div class="absolute -top-4 -right-4 text-brand-pink text-xl floating-element select-none">✦</div>
+                    <div class="absolute -bottom-3 -left-5 text-brand-violet text-lg floating-element-reverse select-none">★</div>
+                    <div class="absolute top-1/2 -right-7 text-brand-pink text-sm floating-element select-none">✨</div>
+                </div>
+            </div>
+
+            <!-- Contact Cards Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-xl mx-auto pt-4">
+                <!-- Email -->
+                <a href="mailto:huyenngocleeart@gmail.com" class="bg-white border border-black/10 p-5 rounded-2xl hover:border-brand-pink/50 hover:shadow-md group transition duration-300 flex items-center gap-4 shimmer-border">
+                    <div class="bg-brand-pink/10 text-brand-pink p-3 rounded-xl group-hover:scale-110 transition duration-300">
+                        <i data-lucide="mail" class="w-6 h-6"></i>
+                    </div>
+                    <div class="text-left">
+                        <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Email</span>
+                        <p class="text-xs sm:text-sm font-semibold text-black break-all">huyenngocleeart@gmail.com</p>
+                    </div>
+                </a>
+
+                <!-- Phone -->
+                <a href="tel:+84834357056" class="bg-white border border-black/10 p-5 rounded-2xl hover:border-brand-pink/50 hover:shadow-md group transition duration-300 flex items-center gap-4 shimmer-border">
+                    <div class="bg-brand-pink/10 text-brand-pink p-3 rounded-xl group-hover:scale-110 transition duration-300">
+                        <i data-lucide="phone" class="w-6 h-6"></i>
+                    </div>
+                    <div class="text-left">
+                        <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Hotline</span>
+                        <p class="text-xs sm:text-sm font-semibold text-black">+84 834 357 056</p>
+                    </div>
+                </a>
+
+                <!-- LinkedIn -->
+                <div class="bg-white border border-black/10 p-5 rounded-2xl hover:border-brand-violet/50 hover:shadow-md group transition duration-300 flex items-center gap-4 shimmer-border">
+                    <div class="bg-brand-violet/10 text-brand-violet p-3 rounded-xl group-hover:scale-110 transition duration-300">
+                        <i data-lucide="linkedin" class="w-6 h-6"></i>
+                    </div>
+                    <div class="text-left">
+                        <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">LinkedIn</span>
+                        <p class="text-xs sm:text-sm font-semibold text-black">huyenle2004</p>
+                    </div>
+                </div>
+
+                <!-- Location -->
+                <div class="bg-white border border-black/10 p-5 rounded-2xl hover:border-brand-violet/50 hover:shadow-md group transition duration-300 flex items-center gap-4 shimmer-border">
+                    <div class="bg-brand-violet/10 text-brand-violet p-3 rounded-xl group-hover:scale-110 transition duration-300">
+                        <i data-lucide="map-pin" class="w-6 h-6"></i>
+                    </div>
+                    <div class="text-left">
+                        <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Location</span>
+                        <p class="text-xs sm:text-sm font-semibold text-black">Ho Chi Minh City, Vietnam</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="pt-16 border-t border-black/5 text-gray-400 text-xs">
+                <p>&copy; 2026 Huyen Ngoc Le. Handcrafted with love &amp; Structured Creativity.</p>
+                <p class="mt-1">Designed in Gen Z Marketing Style.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== JAVASCRIPT ===== -->
+    <script>
+        // Cursor trail dot
+        const dot = document.getElementById('cursorDot');
+        document.addEventListener('mousemove', e => {
+            dot.style.left = e.clientX + 'px';
+            dot.style.top = e.clientY + 'px';
+        });
+
+        // Global, framework-independent fallback: if an <img> can't load its file
+        // (e.g. the photo hasn't been dropped into images/ yet), swap it for a soft
+        // placeholder instead of showing a broken-image icon. Runs at most once per
+        // <img> (onerror is cleared after firing) so it can never loop.
+        // Danh sách các đường dẫn ảnh bị lỗi (không tải được), dùng để hiển thị
+        // bảng chẩn đoán ở góc màn hình giúp bạn biết chính xác file nào đang thiếu.
+        window.__missingImages = [];
+
+        function imgFallback(el) {
+            const originalSrc = el.getAttribute('src') || '';
+            el.onerror = null;
+
+            // Ghi log chi tiết ra console để dễ tra cứu (F12 > Console)
+            console.warn('[Ảnh không tải được] Không tìm thấy file:', originalSrc);
+
+            // Gom vào danh sách chẩn đoán (loại trùng lặp)
+            if (originalSrc && !window.__missingImages.includes(originalSrc)) {
+                window.__missingImages.push(originalSrc);
+                renderMissingImagesPanel();
+            }
+
+            // Lấy riêng tên file (bỏ phần "images/") để hiện ngay trên khung ảnh,
+            // giúp bạn biết cần đặt file nào vào đúng vị trí mà không cần mở DevTools.
+            const fileName = originalSrc.split('/').pop() || 'Photo';
+            el.src = 'https://placehold.co/700x900/f5f5f5/c9c9c9?text=' + encodeURIComponent(fileName);
+        }
+
+        // Bảng chẩn đoán nổi ở góc màn hình, liệt kê chính xác các file ảnh
+        // đang bị thiếu/sai đường dẫn. Chỉ mang tính hỗ trợ debug — bạn có thể
+        // xoá toàn bộ hàm renderMissingImagesPanel() và dòng gọi nó ở trên khi
+        // đã upload đủ ảnh và muốn dọn code cho bản chạy chính thức (production).
+        function renderMissingImagesPanel() {
+            let panel = document.getElementById('missing-images-panel');
+            if (!panel) {
+                panel = document.createElement('div');
+                panel.id = 'missing-images-panel';
+                panel.style.cssText = 'position:fixed;bottom:16px;right:16px;z-index:99999;max-width:340px;' +
+                    'background:#111;color:#fff;font:12px/1.5 monospace;padding:14px 16px;border-radius:12px;' +
+                    'box-shadow:0 8px 24px rgba(0,0,0,0.35);max-height:280px;overflow-y:auto;';
+                document.body.appendChild(panel);
+            }
+            const count = window.__missingImages.length;
+            panel.innerHTML =
+                '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">' +
+                '<strong style="color:#FF2E93;">⚠ Thiếu ' + count + ' ảnh</strong>' +
+                '<button onclick="document.getElementById(\'missing-images-panel\').remove()" ' +
+                'style="background:transparent;border:none;color:#999;cursor:pointer;font-size:14px;">✕</button>' +
+                '</div>' +
+                '<div style="opacity:0.85;">Đặt các file sau vào đúng thư mục <code>images/</code> (đúng tên, đúng chữ hoa/thường):</div>' +
+                '<ul style="margin:8px 0 0;padding-left:16px;">' +
+                window.__missingImages.map(p => '<li style="margin-bottom:3px;word-break:break-all;">' + p + '</li>').join('') +
+                '</ul>';
+        }
+
+        // Bảng nổi ở góc trái màn hình: hiện số ảnh + số link bạn đã nhập trực
+        // tiếp trên web (đang lưu tạm trong trình duyệt) + nút xuất để tải về /
+        // sao chép, sẵn sàng đưa vào file nguồn cho VĨNH VIỄN & hiện trên MỌI máy.
+        function renderExportPanel(imgCount, linkCount) {
+            let panel = document.getElementById('export-images-panel');
+            if (imgCount === 0 && linkCount === 0) { if (panel) panel.remove(); return; }
+            if (!panel) {
+                panel = document.createElement('div');
+                panel.id = 'export-images-panel';
+                panel.style.cssText = 'position:fixed;bottom:16px;left:16px;z-index:99999;max-width:260px;' +
+                    'background:#111;color:#fff;font:12px/1.4 sans-serif;padding:12px 14px;border-radius:12px;' +
+                    'box-shadow:0 8px 24px rgba(0,0,0,0.35);display:flex;flex-direction:column;gap:8px;';
+                document.body.appendChild(panel);
+            }
+            let html = '<div style="opacity:0.75;font-size:10.5px;line-height:1.5;">Ảnh & link tải/nhập trên web chỉ lưu tạm trong TRÌNH DUYỆT NÀY. Bấm nút xuất rồi đưa vào file nguồn để mọi người ở mọi máy đều thấy được.</div>';
+            if (imgCount > 0) {
+                html += '<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">' +
+                    '<span>🖼 ' + imgCount + ' ảnh đã tải lên</span>' +
+                    '<button onclick="window.__portfolioApp.exportAllImages()" ' +
+                    'style="background:#FF2E93;border:none;color:#fff;padding:6px 10px;border-radius:8px;cursor:pointer;font-weight:600;white-space:nowrap;">📥 Xuất ảnh</button>' +
+                    '</div>';
+            }
+            if (linkCount > 0) {
+                html += '<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">' +
+                    '<span>🔗 ' + linkCount + ' link đã nhập</span>' +
+                    '<button onclick="window.__portfolioApp.exportAllLinks()" ' +
+                    'style="background:#7B2CBF;border:none;color:#fff;padding:6px 10px;border-radius:8px;cursor:pointer;font-weight:600;white-space:nowrap;">📋 Xuất links</button>' +
+                    '</div>';
+            }
+            panel.innerHTML = html;
+        }
+
+        function portfolioApp() {
+            return {
+                panelOpen: false,
+                mobileMenuOpen: false,
+                activeExp: 'kasemi',
+                // ===== ĐƯỜNG DẪN ẢNH =====
+                // Đây là các đường dẫn/tên file MẶC ĐỊNH. Giờ bạn có thể bấm thẳng vào
+                // từng khung ảnh trên web để chọn file — ảnh sẽ tự lưu lại trong trình
+                // duyệt (localStorage) và hiển thị ngay, không cần đụng vào thư mục
+                // images/ nữa trong lúc chỉnh sửa. Khi nào muốn đưa trang lên hosting
+                // thật để người khác xem, bấm nút "📥 Xuất ảnh" ở góc trái màn hình để
+                // tải toàn bộ ảnh (đã đặt sẵn đúng tên) về máy, rồi copy vào thư mục
+                // images/ một lần là xong.
+                _defaultPaths: null, // được điền tự động trong initApp()
+                heroPhoto: 'images/hero.png',
+                contactPhoto: 'images/contact.png',
+                imageMask: 'arch',
+                imageFilter: 'normal',
+                expImages: { kyna: 'images/exp-kyna.png' },
+                expLinks: { kyna: '' },
+                expSite: { kyna: '' },
+                gallery: {
+                    kasemi:    { main: 'images/gallery-kasemi-main.png', mainLink: '', site: '', expanded: false, extra: ['images/gallery-kasemi-extra-1.png','images/gallery-kasemi-extra-2.png','images/gallery-kasemi-extra-3.png','images/gallery-kasemi-extra-4.png'], extraLinks: ['','','',''] },
+                    frogsleap: { main: 'images/gallery-frogsleap-main.png', mainLink: '', site: 'https://www.facebook.com/frogsleapvn', expanded: false, extra: ['images/gallery-frogsleap-extra-1.png','images/gallery-frogsleap-extra-2.png','images/gallery-frogsleap-extra-3.png'], extraLinks: ['','',''] },
+                    happyhands:{ main: 'images/gallery-happyhands-main.png', mainLink: '', site: 'https://www.facebook.com/profile.php?id=61574610917309', expanded: false, extra: ['images/gallery-happyhands-extra-1.png','images/gallery-happyhands-extra-2.png','images/gallery-happyhands-extra-3.png'], extraLinks: ['','',''] },
+                    umx:       { main: 'images/gallery-umx-main.png', mainLink: '', site: '', expanded: false, extra: ['images/gallery-umx-extra-1.png','images/gallery-umx-extra-2.png','images/gallery-umx-extra-3.png'], extraLinks: ['','',''] },
+                    photography: { main: 'images/gallery-photography-main.png', expanded: false, extra: ['images/gallery-photography-extra-1.png','images/gallery-photography-extra-2.png','images/gallery-photography-extra-3.png'] },
+                    miso: { frames: [
+                        { main: 'images/gallery-miso-1-main.png', mainLink: '', site: 'https://www.tiktok.com/@misomentor', expanded: false, extra: ['images/gallery-miso-1-extra-1.png','images/gallery-miso-1-extra-2.png'], extraLinks: ['',''] },
+                        { main: 'images/gallery-miso-2-main.png', mainLink: '', site: 'https://www.tiktok.com/@miso.soup777', expanded: false, extra: ['images/gallery-miso-2-extra-1.png','images/gallery-miso-2-extra-2.png'], extraLinks: ['',''] }
+                    ] }
+                },
+                otherImages: {
+                    sales: 'images/other-sales.png',
+                    eventcoord: 'images/other-eventcoord.png',
+                    tribeleader: 'images/other-tribeleader.png',
+                    tourguide: 'images/other-tourguide.png'
+                },
+
+                lensPhotos: Array.from({ length: 20 }, (_, i) => 'images/lens-' + String(i + 1).padStart(2, '0') + '.png'),
+                lightboxOpen: false,
+                lightboxIndex: 0,
+
+                zoomOpen: false,
+                zoomSrc: '',
+
+                initApp() {
+                    window.__portfolioApp = this; // để nút "Xuất ảnh" ở bảng nổi gọi được
+                    setTimeout(() => { lucide.createIcons(); }, 100);
+                    // Lưu lại bộ đường dẫn/tên file MẶC ĐỊNH (dùng làm "chìa khoá" để
+                    // lưu ảnh vào localStorage và để đặt tên file khi xuất ra sau này).
+                    this._defaultPaths = JSON.parse(JSON.stringify({
+                        heroPhoto: this.heroPhoto,
+                        contactPhoto: this.contactPhoto,
+                        expImages: this.expImages,
+                        gallery: this.gallery,
+                        otherImages: this.otherImages,
+                        lensPhotos: this.lensPhotos
+                    }));
+                    // Nạp lại mọi ảnh bạn đã bấm-tải-lên trước đó (được lưu trong
+                    // trình duyệt này) để chúng hiện ra ngay cả sau khi tải lại trang.
+                    this.loadSavedImages();
+                    // Nạp lại mọi đường link đã nhập trước đó (được lưu trong trình
+                    // duyệt này) để link không bị mất khi tải lại trang.
+                    this.loadSavedLinks();
+                    setTimeout(() => { lucide.createIcons(); }, 200);
+                },
+
+                // ====== Lưu / nạp ảnh trực tiếp trong trình duyệt (localStorage) ======
+                // Đây là phần giúp bạn "chèn ảnh trực tiếp trên web" mà không cần vào
+                // thư mục images/ nữa trong lúc chỉnh sửa. LƯU Ý QUAN TRỌNG: ảnh chỉ
+                // được lưu trong trình duyệt/máy bạn đang dùng lúc này — người khác mở
+                // link trang của bạn ở máy/trình duyệt khác sẽ KHÔNG thấy ảnh này, vì
+                // đây chỉ là bản nháp để bạn xem trước. Khi ưng ý, bấm nút "📥 Xuất ảnh"
+                // để tải toàn bộ ảnh (đúng tên file) về máy rồi copy vào thư mục images/
+                // — lúc đó ảnh mới thật sự "vĩnh viễn" và ai mở trang cũng thấy được.
+                saveImage(defaultPath, dataURL) {
+                    try {
+                        localStorage.setItem('portfolioImg:' + defaultPath, dataURL);
+                    } catch (e) {
+                        console.warn('Không lưu được ảnh vào bộ nhớ trình duyệt:', e);
+                        alert('Ảnh quá nặng hoặc bộ nhớ trình duyệt (localStorage) đã đầy.\nHãy thử chọn ảnh dung lượng nhỏ hơn, hoặc bấm "Xuất ảnh" để giải phóng bớt rồi thử lại.');
+                    }
+                    this.refreshExportPanel();
+                },
+                loadImage(defaultPath) {
+                    return localStorage.getItem('portfolioImg:' + defaultPath) || defaultPath;
+                },
+
+                // ====== Lưu / nạp đường LINK (website) đã nhập, để link không bị ======
+                // ====== mất đi khi tải lại trang (giống cơ chế lưu ảnh ở trên) ======
+                saveLink(key, value) {
+                    try {
+                        if (value) {
+                            localStorage.setItem('portfolioLink:' + key, value);
+                        } else {
+                            localStorage.removeItem('portfolioLink:' + key);
+                        }
+                    } catch (e) {
+                        console.warn('Không lưu được link vào bộ nhớ trình duyệt:', e);
+                    }
+                },
+                loadLink(key) {
+                    return localStorage.getItem('portfolioLink:' + key);
+                },
+                loadSavedLinks() {
+                    // Chỉ ghi đè site mặc định (đã đóng băng trong code) nếu trình duyệt
+                    // này có bản lưu tạm riêng — nếu không có, GIỮ NGUYÊN giá trị mặc định
+                    // để link vẫn hiện đúng trên mọi máy/trình duyệt khác.
+                    ['frogsleap', 'happyhands'].forEach(key => {
+                        const saved = this.loadLink('gallery.' + key + '.site');
+                        if (saved !== null) this.gallery[key].site = saved;
+                    });
+                    this.gallery.miso.frames.forEach((f, idx) => {
+                        const saved = this.loadLink('gallery.miso.' + idx + '.site');
+                        if (saved !== null) f.site = saved;
+                    });
+                },
+                loadSavedImages() {
+                    const d = this._defaultPaths;
+                    this.heroPhoto = this.loadImage(d.heroPhoto);
+                    this.contactPhoto = this.loadImage(d.contactPhoto);
+                    this.expImages.kyna = this.loadImage(d.expImages.kyna);
+                    Object.keys(d.gallery).forEach(key => {
+                        if (key === 'miso') {
+                            d.gallery.miso.frames.forEach((f, idx) => {
+                                this.gallery.miso.frames[idx].main = this.loadImage(f.main);
+                                f.extra.forEach((p, j) => { this.gallery.miso.frames[idx].extra[j] = this.loadImage(p); });
+                            });
+                        } else {
+                            this.gallery[key].main = this.loadImage(d.gallery[key].main);
+                            d.gallery[key].extra.forEach((p, i) => { this.gallery[key].extra[i] = this.loadImage(p); });
+                        }
+                    });
+                    Object.keys(d.otherImages).forEach(key => { this.otherImages[key] = this.loadImage(d.otherImages[key]); });
+                    d.lensPhotos.forEach((p, i) => { this.lensPhotos[i] = this.loadImage(p); });
+                    this.refreshExportPanel();
+                },
+                // Đếm số ảnh + số link đang lưu tạm trong trình duyệt, cập nhật bảng xuất
+                refreshExportPanel() {
+                    const imgKeys = Object.keys(localStorage).filter(k => k.startsWith('portfolioImg:'));
+                    const linkKeys = Object.keys(localStorage).filter(k => k.startsWith('portfolioLink:'));
+                    renderExportPanel(imgKeys.length, linkKeys.length);
+                },
+                // Tải toàn bộ ảnh đã lưu tạm về máy, mỗi file được đặt ĐÚNG tên mà
+                // code đang cần — bạn chỉ việc copy các file tải về vào thư mục images/.
+                exportAllImages() {
+                    const keys = Object.keys(localStorage).filter(k => k.startsWith('portfolioImg:'));
+                    if (keys.length === 0) { alert('Chưa có ảnh nào được tải lên trên web để xuất.'); return; }
+                    keys.forEach((k, idx) => {
+                        setTimeout(() => {
+                            const defaultPath = k.replace('portfolioImg:', '');
+                            const fileName = defaultPath.split('/').pop();
+                            const dataURL = localStorage.getItem(k);
+                            const a = document.createElement('a');
+                            a.href = dataURL;
+                            a.download = fileName;
+                            document.body.appendChild(a);
+                            a.click();
+                            a.remove();
+                        }, idx * 400); // giãn cách để trình duyệt không chặn tải hàng loạt
+                    });
+                    alert('Trình duyệt sẽ tải về ' + keys.length + ' file ảnh (đã đúng tên).\nSau khi tải xong, hãy copy toàn bộ file đó vào thư mục "images/" cạnh index.html.');
+                },
+
+                // Tải về 1 file .txt liệt kê toàn bộ link (website) đã nhập trên web,
+                // dưới dạng đoạn code sẵn sàng để dán thay thế vào phần "gallery" trong
+                // file index.html — đây là cách DUY NHẤT để link hiện ra vĩnh viễn và
+                // hiện đúng trên MỌI máy/trình duyệt khác (localStorage chỉ lưu ở máy này).
+                exportAllLinks() {
+                    const keys = Object.keys(localStorage).filter(k => k.startsWith('portfolioLink:'));
+                    if (keys.length === 0) { alert('Chưa có link nào được nhập trên web để xuất.'); return; }
+                    let lines = ['// ===== Các link website đã nhập trên web ====='];
+                    keys.forEach(k => {
+                        const fieldKey = k.replace('portfolioLink:', '');
+                        const value = localStorage.getItem(k);
+                        lines.push(fieldKey + '  =  "' + value + '"');
+                    });
+                    const content = lines.join('\n') +
+                        '\n\n// Gửi đoạn trên cho Claude (hoặc tự thay) để cập nhật thẳng vào\n' +
+                        '// phần "gallery" trong file index.html — chỉ khi đó link mới\n' +
+                        '// hiện ra vĩnh viễn và đúng trên MỌI máy/trình duyệt khác.';
+                    const blob = new Blob([content], { type: 'text/plain' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'links-can-cap-nhat.txt';
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+                    URL.revokeObjectURL(url);
+                    alert('Đã tải file "links-can-cap-nhat.txt" liệt kê toàn bộ link bạn đã nhập.\nGửi file này (hoặc nội dung bên trong) lại cho Claude để cập nhật vĩnh viễn vào file index.html, giúp link hiện đúng trên mọi máy.');
+                },
+
+                togglePanel() { this.panelOpen = !this.panelOpen; },
+
+                // Reads a chosen file and turns it into a JPEG data URL purely so it can
+                // be PREVIEWED on screen right away. This preview is temporary — it only
+                // lives in this browser tab/session. To make a photo permanent, save the
+                // actual image file into the images/ folder next to index.html using the
+                // filename shown in images/README.md (or in the field's default path).
+                compressImage(file, maxDim = 1920, quality = 0.9) {
+                    return new Promise((resolve, reject) => {
+                        const reader = new FileReader();
+                        reader.onload = e => {
+                            const img = new Image();
+                            img.onload = () => {
+                                let { width, height } = img;
+                                if (width > maxDim || height > maxDim) {
+                                    if (width > height) { height = Math.round(height * (maxDim / width)); width = maxDim; }
+                                    else { width = Math.round(width * (maxDim / height)); height = maxDim; }
+                                }
+                                const canvas = document.createElement('canvas');
+                                canvas.width = width;
+                                canvas.height = height;
+                                const ctx = canvas.getContext('2d');
+                                ctx.imageSmoothingEnabled = true;
+                                ctx.imageSmoothingQuality = 'high';
+                                ctx.drawImage(img, 0, 0, width, height);
+                                resolve(canvas.toDataURL('image/jpeg', quality));
+                            };
+                            img.onerror = reject;
+                            img.src = e.target.result;
+                        };
+                        reader.onerror = reject;
+                        reader.readAsDataURL(file);
+                    });
+                },
+
+                async uploadHeroPhoto(event) {
+                    const file = event.target.files[0];
+                    if (file) {
+                        this.heroPhoto = await this.compressImage(file, 1600, 0.9);
+                        this.saveImage(this._defaultPaths.heroPhoto, this.heroPhoto);
+                    }
+                },
+
+                async uploadContactPhoto(event) {
+                    const file = event.target.files[0];
+                    if (file) {
+                        this.contactPhoto = await this.compressImage(file, 1600, 0.9);
+                        this.saveImage(this._defaultPaths.contactPhoto, this.contactPhoto);
+                    }
+                },
+
+                setMask(m) { this.imageMask = m; },
+                setFilter(f) { this.imageFilter = f; },
+
+                async uploadExpPhoto(event, key) {
+                    const file = event.target.files[0];
+                    if (file) {
+                        this.expImages[key] = await this.compressImage(file, 1800, 0.9);
+                        this.saveImage(this._defaultPaths.expImages[key], this.expImages[key]);
+                    }
+                },
+                setExpLink(key) {},
+                setExpSite(key) {},
+
+                async uploadGalleryMain(event, key) {
+                    const file = event.target.files[0];
+                    if (file) {
+                        this.gallery[key].main = await this.compressImage(file, 1800, 0.9);
+                        this.saveImage(this._defaultPaths.gallery[key].main, this.gallery[key].main);
+                    }
+                },
+                setGalleryMainLink(key) {},
+                setGallerySite(key) { this.saveLink('gallery.' + key + '.site', this.gallery[key].site); },
+                async uploadGalleryExtra(event, key, i) {
+                    const file = event.target.files[0];
+                    if (file) {
+                        this.gallery[key].extra[i] = await this.compressImage(file, 1400, 0.88);
+                        this.saveImage(this._defaultPaths.gallery[key].extra[i], this.gallery[key].extra[i]);
+                    }
+                },
+                setGalleryExtraLink(key, i) {},
+
+                async uploadMisoMain(event, idx) {
+                    const file = event.target.files[0];
+                    if (file) {
+                        this.gallery.miso.frames[idx].main = await this.compressImage(file, 1800, 0.9);
+                        this.saveImage(this._defaultPaths.gallery.miso.frames[idx].main, this.gallery.miso.frames[idx].main);
+                    }
+                },
+                setMisoMainLink(idx) {},
+                setMisoSite(idx) { this.saveLink('gallery.miso.' + idx + '.site', this.gallery.miso.frames[idx].site); },
+                async uploadMisoExtra(event, idx, j) {
+                    const file = event.target.files[0];
+                    if (file) {
+                        this.gallery.miso.frames[idx].extra[j] = await this.compressImage(file, 1400, 0.88);
+                        this.saveImage(this._defaultPaths.gallery.miso.frames[idx].extra[j], this.gallery.miso.frames[idx].extra[j]);
+                    }
+                },
+                setMisoExtraLink(idx, j) {},
+
+                async uploadOtherPhoto(event, key) {
+                    const file = event.target.files[0];
+                    if (file) {
+                        this.otherImages[key] = await this.compressImage(file, 1400, 0.88);
+                        this.saveImage(this._defaultPaths.otherImages[key], this.otherImages[key]);
+                    }
+                },
+
+                async uploadLensPhoto(event, i) {
+                    const file = event.target.files[0];
+                    if (file) {
+                        this.lensPhotos[i] = await this.compressImage(file, 1600, 0.9);
+                        this.saveImage(this._defaultPaths.lensPhotos[i], this.lensPhotos[i]);
+                    }
+                },
+                openLightbox(i) {
+                    this.lightboxIndex = i;
+                    this.lightboxOpen = true;
+                },
+                closeLightbox() { this.lightboxOpen = false; },
+                openZoom(src) {
+                    if (!src) return;
+                    this.zoomSrc = src;
+                    this.zoomOpen = true;
+                },
+                closeZoom() { this.zoomOpen = false; },
+                nextLightbox() {
+                    if (!this.lightboxOpen) return;
+                    let i = this.lightboxIndex;
+                    for (let step = 0; step < this.lensPhotos.length; step++) {
+                        i = (i + 1) % this.lensPhotos.length;
+                        if (this.lensPhotos[i]) { this.lightboxIndex = i; return; }
+                    }
+                },
+                prevLightbox() {
+                    if (!this.lightboxOpen) return;
+                    let i = this.lightboxIndex;
+                    for (let step = 0; step < this.lensPhotos.length; step++) {
+                        i = (i - 1 + this.lensPhotos.length) % this.lensPhotos.length;
+                        if (this.lensPhotos[i]) { this.lightboxIndex = i; return; }
+                    }
+                },
+
+                resolveImg(fileImg, linkImg) { return fileImg || linkImg || ''; },
+
+                normalizeUrl(url) {
+                    if (!url) return url;
+                    const trimmed = url.trim();
+                    if (!trimmed) return trimmed;
+                    if (/^https?:\/\//i.test(trimmed) || /^mailto:|^tel:/i.test(trimmed)) return trimmed;
+                    return 'https://' + trimmed;
+                }
+            }
+        }
+    </script>
+</body>
+</html>
